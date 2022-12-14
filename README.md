@@ -1,4 +1,7 @@
-# real-world를 구현하는 저장소
+# Real-World를 구현하는 저장소
+## Real World!
+> https://realworld-docs.netlify.app/docs/specs/backend-specs/introduction/
+
 ## Tools 
 - Spring Boot 3.0
 - Java 17
@@ -7,4 +10,3 @@
 - Spring Data JPA
 - QueryDSL
 - Spring Security
-
