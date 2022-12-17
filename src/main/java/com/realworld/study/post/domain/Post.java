@@ -1,5 +1,6 @@
 package com.realworld.study.post.domain;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +15,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Embedded
+    private PostTitle title;
 
     private String description;
 
@@ -32,7 +34,7 @@ public class Post {
 
     public Post(
         Long id,
-        String title,
+        PostTitle title,
         String description,
         String body,
         LocalDateTime createdAt,
