@@ -17,28 +17,19 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Post create() {
+        Post savedPost = createPost();
+        // savedPost -> response dto
+        return savedPost;
+    }
+
+    private Post createPost() {
         Post post = new Post(
-            1L,
             new PostTitle("Post Title"),
             new PostDescription("Post Description"),
             new PostBody("Post Body"),
             LocalDateTime.now(),
             LocalDateTime.now()
         );
-        return postRepository.save(post);
-    }
-
-    public Post update() {
-        Post post = new Post(
-                1L,
-                new PostTitle("Post Title"),
-                new PostDescription("Post Description"),
-                new PostBody("Post Body"),
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
-
-        post.updateTitle("Post Title Updated");
         return postRepository.save(post);
     }
 }
