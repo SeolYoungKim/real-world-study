@@ -39,4 +39,9 @@ public class PostService {
         post.get().updateTitle("Post Title Updated");
         return post.get();
     }
+
+    public void delete() {
+        Optional<Post> post = postRepository.findById(1L);
+        postRepository.delete(post.get());
+    }
 }
