@@ -1,6 +1,5 @@
 package com.realworld.study.post.domain;
 
-import com.querydsl.core.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +8,7 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 /**
  * TODO 정체성을 좀 더 명확히 해보자.
@@ -40,7 +40,7 @@ public class Post {
     }
 
     private void validate(final String title, final String contents) {
-        if (StringUtils.isNullOrEmpty(title) || StringUtils.isNullOrEmpty(contents)) {
+        if (!StringUtils.hasText(title) || !StringUtils.hasText(contents)) {
             throw new IllegalArgumentException("게시글의 제목과 내용은 공백일 수 없습니다.");
         }
     }
