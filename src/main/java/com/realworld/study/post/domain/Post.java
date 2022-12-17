@@ -58,6 +58,10 @@ public class Post {
         this.updatedAt = updatedAt;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title.getTitle();
     }
