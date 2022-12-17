@@ -18,7 +18,8 @@ public class Post {
     @Embedded
     private PostTitle title;
 
-    private String description;
+    @Embedded
+    private PostDescription description;
 
     private String body;
 
@@ -35,7 +36,7 @@ public class Post {
     public Post(
         Long id,
         PostTitle title,
-        String description,
+        PostDescription description,
         String body,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
