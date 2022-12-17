@@ -10,4 +10,8 @@ public class PostDescription {
     protected PostDescription() {
 
     }
+
+    public PostDescription(String description) {
+        this.description = description;
+    }
 }
