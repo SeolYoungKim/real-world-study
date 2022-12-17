@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController
 @RequestMapping("/api")
+@RestController  //TODO Controller vs RestController
 public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {
+    public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {  //TODO @RequestBody의 원리는 무엇일까?
         return postService.createPost(postCreateRequest);
     }
 

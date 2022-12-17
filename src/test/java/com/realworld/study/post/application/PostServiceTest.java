@@ -21,7 +21,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+/**
+ * TODO 단위 테스트란 ?
+ */
+@Transactional  //TODO 해당 애노테이션을 테스트 클래스에 작성하면 어떤 일이 벌어지나 ?
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     @Mock

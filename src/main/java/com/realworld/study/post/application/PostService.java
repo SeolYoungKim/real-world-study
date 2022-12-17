@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional  //TODO 이 애노테이션이 필요한 이유와 기전
 @Service
 public class PostService {
     private final PostRepository postRepository;
