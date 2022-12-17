@@ -16,8 +16,8 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public void save(final ArticleRequest articleRequest) {
-        articleRepository.save(articleRequest.toEntity());
+    public Article save(final ArticleRequest articleRequest) {
+        return articleRepository.save(articleRequest.toEntity());
     }
 
     public void update(final Long id, final ArticleUpdateRequest articleUpdateRequest) {
