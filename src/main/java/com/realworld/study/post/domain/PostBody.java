@@ -12,4 +12,8 @@ public class PostBody {
     protected PostBody() {
 
     }
+
+    public PostBody(String body) {
+        this.body = body;
+    }
 }
