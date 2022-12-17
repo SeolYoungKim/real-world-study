@@ -20,6 +20,9 @@ public class Article {
     @Column(name = "title", nullable = false, length = 30)
     private String title;
 
+    @Column(name = "description", nullable = false, length = 50)
+    private String description;
+
     @Column(name = "contents", nullable = false)
     private String contents;
 }
