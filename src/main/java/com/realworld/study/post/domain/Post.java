@@ -24,24 +24,24 @@ public class Post {
     @Column
     private String contents;
 
-    public Post(String title, String contents) {
+    public Post(final String title, final String contents) {
         validate(title, contents);
         this.title = title;
         this.contents = contents;
     }
 
-    private void validate(String title, String contents) {
+    private void validate(final String title, final String contents) {
         if (StringUtils.isNullOrEmpty(title) || StringUtils.isNullOrEmpty(contents)) {
             throw new IllegalArgumentException("게시글의 제목과 내용은 공백일 수 없습니다.");
         }
     }
 
-    public void update(String title, String contents) {
+    public void update(final String title, final String contents) {
         this.title = updateOrNot(this.title, title);
         this.contents = updateOrNot(this.contents, contents);
     }
 
-    private <T> T updateOrNot(T mine, T other) {
+    private <T> T updateOrNot(final T mine, final T other) {
         if (other == null) {
             return mine;
         }

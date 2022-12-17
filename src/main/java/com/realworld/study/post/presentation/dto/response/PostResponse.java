@@ -9,11 +9,11 @@ public class PostResponse {
     private final String title;
     private final String contents;
 
-    public static PostResponse from(Post post) {
+    public static PostResponse from(final Post post) {
         return new PostResponse(post.getId(), post.getTitle(), post.getContents());
     }
 
-    private PostResponse(Long id, String title, String contents) {
+    private PostResponse(final Long id, final String title, final String contents) {
         this.id = id;
         this.title = title;
         this.contents = contents;

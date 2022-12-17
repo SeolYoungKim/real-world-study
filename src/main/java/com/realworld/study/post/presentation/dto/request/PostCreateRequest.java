@@ -10,7 +10,7 @@ public class PostCreateRequest {
     private String title;
     private String contents;
 
-    public PostCreateRequest(String title, String contents) {
+    public PostCreateRequest(final String title, final String contents) {
         this.title = title;
         this.contents = contents;
     }

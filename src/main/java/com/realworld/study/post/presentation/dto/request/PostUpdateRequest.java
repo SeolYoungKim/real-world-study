@@ -10,7 +10,7 @@ public class PostUpdateRequest {
     private String title;
     private String contents;
 
-    public PostUpdateRequest(String title, String contents) {
+    public PostUpdateRequest(final String title, final String contents) {
         this.title = title;
         this.contents = contents;
     }

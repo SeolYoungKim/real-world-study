@@ -21,19 +21,19 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public PostResponse createPost(@RequestBody PostCreateRequest postCreateRequest) {
+    public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {
         return postService.createPost(postCreateRequest);
     }
 
     @PutMapping("/posts/{postId}")
-    public PostResponse updatePost(@PathVariable Long postId,
-            @RequestBody PostUpdateRequest postUpdateRequest) {
+    public PostResponse updatePost(@PathVariable final Long postId,
+            @RequestBody final PostUpdateRequest postUpdateRequest) {
 
         return postService.updatePost(postId, postUpdateRequest);
     }
 
     @DeleteMapping("/posts/{postId}")
-    public PostDeleteResponse deletePost(@PathVariable Long postId) {
+    public PostDeleteResponse deletePost(@PathVariable final Long postId) {
         return postService.deletePost(postId);
     }
 }

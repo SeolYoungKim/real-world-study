@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostResponse createPost(PostCreateRequest postCreateRequest) {
+    public PostResponse createPost(final PostCreateRequest postCreateRequest) {
         Post post = new Post(postCreateRequest.getTitle(), postCreateRequest.getContents());
         postRepository.save(post);
 
         return PostResponse.from(post);
     }
 
-    public PostResponse updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
+    public PostResponse updatePost(final Long postId, final PostUpdateRequest postUpdateRequest) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
 
@@ -31,7 +31,7 @@ public class PostService {
         return PostResponse.from(post);
     }
 
-    public PostDeleteResponse deletePost(Long postId) {
+    public PostDeleteResponse deletePost(final Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
 
