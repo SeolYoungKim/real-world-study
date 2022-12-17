@@ -19,9 +19,9 @@ public class PostService {
     public Post create() {
         Post post = new Post(
             1L,
-            new PostTitle(""),
-            new PostDescription(""),
-            new PostBody(""),
+            new PostTitle("Post Title"),
+            new PostDescription("Post Description"),
+            new PostBody("Post Body"),
             LocalDateTime.now(),
             LocalDateTime.now()
         );
