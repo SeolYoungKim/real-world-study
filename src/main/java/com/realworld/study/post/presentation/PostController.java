@@ -1,10 +1,10 @@
 package com.realworld.study.post.presentation;
 
 import com.realworld.study.post.application.PostService;
-import com.realworld.study.post.presentation.dto.request.PostCreateRequest;
-import com.realworld.study.post.presentation.dto.request.PostUpdateRequest;
-import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
-import com.realworld.study.post.presentation.dto.response.PostResponse;
+import com.realworld.study.post.application.dto.PostCreateRequest;
+import com.realworld.study.post.application.dto.PostUpdateRequest;
+import com.realworld.study.post.presentation.dto.PostDeleteResponse;
+import com.realworld.study.post.presentation.dto.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;

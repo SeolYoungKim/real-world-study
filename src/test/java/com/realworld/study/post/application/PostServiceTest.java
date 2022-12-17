@@ -7,10 +7,10 @@ import static org.mockito.Mockito.when;
 
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostRepository;
-import com.realworld.study.post.presentation.dto.request.PostCreateRequest;
-import com.realworld.study.post.presentation.dto.request.PostUpdateRequest;
-import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
-import com.realworld.study.post.presentation.dto.response.PostResponse;
+import com.realworld.study.post.application.dto.PostCreateRequest;
+import com.realworld.study.post.application.dto.PostUpdateRequest;
+import com.realworld.study.post.presentation.dto.PostDeleteResponse;
+import com.realworld.study.post.presentation.dto.PostResponse;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

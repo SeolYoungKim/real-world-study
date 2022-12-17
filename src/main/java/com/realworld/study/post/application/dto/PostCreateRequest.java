@@ -1,11 +1,11 @@
-package com.realworld.study.post.presentation.dto.request;
+package com.realworld.study.post.application.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostCreateRequest {
     private String title;
     private String contents;
