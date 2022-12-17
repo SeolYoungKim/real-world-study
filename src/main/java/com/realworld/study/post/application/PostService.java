@@ -27,4 +27,18 @@ public class PostService {
         );
         return postRepository.save(post);
     }
+
+    public Post update() {
+        Post post = new Post(
+                1L,
+                new PostTitle("Post Title"),
+                new PostDescription("Post Description"),
+                new PostBody("Post Body"),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        post.updateTitle("Post Title Updated");
+        return postRepository.save(post);
+    }
 }

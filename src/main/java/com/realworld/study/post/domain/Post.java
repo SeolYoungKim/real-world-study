@@ -67,4 +67,8 @@ public class Post {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
+    public void updateTitle(String title) {
+        this.title = new PostTitle(title);
+    }
 }
