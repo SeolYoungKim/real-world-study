@@ -27,18 +27,18 @@ public class Article {
     @Column(name = "description", nullable = false, length = 50)
     private String description;
 
-    @Column(name = "contents", nullable = false)
-    private String contents;
+    @Column(name = "body", nullable = false)
+    private String body;
 
-    public Article(Long id, String title, String description, String contents) {
+    public Article(Long id, String title, String description, String body) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.contents = contents;
+        this.body = body;
     }
 
-    public Article(String title, String description, String contents) {
-        this(null, title, description, contents);
+    public Article(String title, String description, String body) {
+        this(null, title, description, body);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", contents='" + contents + '\'' +
+                ", body='" + body + '\'' +
                 '}';
     }
 }

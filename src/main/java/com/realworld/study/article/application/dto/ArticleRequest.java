@@ -11,10 +11,10 @@ public class ArticleRequest {
 
     private String title;
     private String description;
-    private String contents;
+    private String body;
 
     public Article toEntity() {
-        return new Article(title, description, contents);
+        return new Article(title, description, body);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ArticleRequest {
         return "ArticleRequest{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", contents='" + contents + '\'' +
+                ", body='" + body + '\'' +
                 '}';
     }
 }
