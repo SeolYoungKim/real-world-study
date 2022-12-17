@@ -47,4 +47,24 @@ public class Post {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public String getTitle() {
+        return title.getTitle();
+    }
+
+    public String getDescription() {
+        return description.getDescription();
+    }
+
+    public String getBody() {
+        return body.getBody();
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }
