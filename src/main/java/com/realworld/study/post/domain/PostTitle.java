@@ -10,4 +10,8 @@ public class PostTitle {
     protected PostTitle() {
 
     }
+
+    public PostTitle(String title) {
+        this.title = title;
+    }
 }
