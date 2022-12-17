@@ -1,4 +1,4 @@
-package com.realworld.study.post.presentation.dto;
+package com.realworld.study.post.presentation.dto.response;
 
 import com.realworld.study.post.domain.Post;
 import lombok.Getter;
