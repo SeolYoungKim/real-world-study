@@ -6,10 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Objects;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "article")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Article {
 
@@ -25,4 +29,43 @@ public class Article {
 
     @Column(name = "contents", nullable = false)
     private String contents;
+
+    public Article(Long id, String title, String description, String contents) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.contents = contents;
+    }
+
+    public Article(String title, String description, String contents) {
+        this(null, title, description, contents);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Article)) {
+            return false;
+        }
+
+        Article article = (Article) o;
+        return Objects.equals(id, article.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", contents='" + contents + '\'' +
+                '}';
+    }
 }
