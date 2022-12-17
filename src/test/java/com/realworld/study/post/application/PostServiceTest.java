@@ -23,4 +23,11 @@ class PostServiceTest {
         assertThat(post.getDescription()).isEqualTo("Post Description");
         assertThat(post.getBody()).isEqualTo("Post Body");
     }
+
+    @Test
+    @DisplayName("Post 수정")
+    void update() {
+        Post post = postService.update();
+        assertThat(post.getTitle()).isEqualTo("Post Title Updated");
+    }
 }
