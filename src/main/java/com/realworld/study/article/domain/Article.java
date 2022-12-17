@@ -41,6 +41,18 @@ public class Article {
         this(null, title, description, body);
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
