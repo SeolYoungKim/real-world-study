@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,11 @@ public class PostService {
             LocalDateTime.now()
         );
         return postRepository.save(post);
+    }
+
+    public Post update() {
+        Optional<Post> post = postRepository.findById(1L);
+        post.get().updateTitle("Post Title Updated");
+        return post.get();
     }
 }
