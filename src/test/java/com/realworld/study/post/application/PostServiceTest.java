@@ -32,4 +32,12 @@ class PostServiceTest {
         Post post = postService.update();
         assertThat(post.getTitle()).isEqualTo("Post Title Updated");
     }
+
+    @Test
+    @DisplayName("Post 삭제")
+    void delete() {
+        postService.create();
+        // 삭제 API 요청에 대한 상태 코드로 체크할 수 있으면 좋을 것 같다.
+        postService.delete();
+    }
 }
