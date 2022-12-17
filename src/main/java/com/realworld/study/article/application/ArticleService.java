@@ -4,6 +4,7 @@ import com.realworld.study.article.application.dto.ArticleRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,17 +21,20 @@ public class ArticleService {
     }
 
     public void update(final Long id, final ArticleUpdateRequest articleUpdateRequest) {
-        Article article = articleRepository.getReferenceById(id);
-        if (articleUpdateRequest.getTitle() != null) {
-            article.setTitle(articleUpdateRequest.getTitle());
+        Optional<Article> article = articleRepository.findById(id);
+        if (article.isPresent()) {
+            if (articleUpdateRequest.getTitle() != null) {
+                article.get().setTitle(articleUpdateRequest.getTitle());
+            }
+            if (articleUpdateRequest.getDescription() != null) {
+                article.get().setDescription(articleUpdateRequest.getDescription());
+            }
+            if (articleUpdateRequest.getBody() != null) {
+                article.get().setBody(articleUpdateRequest.getBody());
+            }
+
+            articleRepository.save(article.get());
         }
-        if (articleUpdateRequest.getDescription() != null) {
-            article.setDescription(articleUpdateRequest.getDescription());
-        }
-        if (articleUpdateRequest.getBody() != null) {
-            article.setBody(articleUpdateRequest.getBody());
-        }
-        articleRepository.save(article);
     }
 
     public void delete(final Long id) {
