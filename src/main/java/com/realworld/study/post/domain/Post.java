@@ -33,6 +33,16 @@ public class Post {
     }
 
     public Post(
+        PostTitle title,
+        PostDescription description,
+        PostBody body,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
+        this(null, title, description, body, createdAt, updatedAt);
+    }
+
+    public Post(
         Long id,
         PostTitle title,
         PostDescription description,
