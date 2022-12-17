@@ -21,7 +21,8 @@ public class Post {
     @Embedded
     private PostDescription description;
 
-    private String body;
+    @Embedded
+    private PostBody body;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -37,7 +38,7 @@ public class Post {
         Long id,
         PostTitle title,
         PostDescription description,
-        String body,
+        PostBody body,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
