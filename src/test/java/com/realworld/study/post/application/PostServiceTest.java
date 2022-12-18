@@ -23,8 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * TODO 단위 테스트란 ???? <-
+ * //TODO 해당 애노테이션을 테스트 클래스에 작성하면 어떤 일이 벌어지나 ?
  */
-@Transactional  //TODO 해당 애노테이션을 테스트 클래스에 작성하면 어떤 일이 벌어지나 ?
+@Transactional
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     @Mock
