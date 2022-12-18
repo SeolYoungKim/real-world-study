@@ -6,6 +6,8 @@ import com.realworld.study.post.presentation.dto.request.PostUpdateRequest;
 import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
 import com.realworld.study.post.presentation.dto.response.PostResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,5 +43,10 @@ public class PostController {
     @GetMapping("/posts/{postId}")
     public PostResponse getPost(@PathVariable final Long postId) {
         return postService.getPost(postId);
+    }
+
+    @GetMapping("/posts")
+    public Page<PostResponse> getPosts(Pageable pageable) {
+        return postService.getPosts(pageable);
     }
 }

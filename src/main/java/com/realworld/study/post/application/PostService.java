@@ -8,6 +8,8 @@ import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
 import com.realworld.study.post.presentation.dto.response.PostResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -44,5 +46,10 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
 
         return PostResponse.from(post);
+    }
+
+    public Page<PostResponse> getPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.pagedPosts(pageable);
+        return posts.map(PostResponse::from);
     }
 }
