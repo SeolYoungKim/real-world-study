@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Transactional  //TODO 이 애노테이션이 필요한 이유와 기전
-@Service
+@Service  //TODO CGLIB (PROXY) 상속
 public class PostService {
     private final PostRepository postRepository;
 

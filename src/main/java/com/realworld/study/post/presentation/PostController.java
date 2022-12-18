@@ -21,7 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {  //TODO @RequestBody의 원리는 무엇일까?
+    public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {
         return postService.createPost(postCreateRequest);
     }
 
