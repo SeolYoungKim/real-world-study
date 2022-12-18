@@ -48,4 +48,13 @@ public class Post extends BaseTimeEntity {
         }
         return other;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", contents='" + contents + '\'' +
+                '}';
+    }
 }
