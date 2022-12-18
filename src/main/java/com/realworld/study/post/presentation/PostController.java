@@ -7,6 +7,7 @@ import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
 import com.realworld.study.post.presentation.dto.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,5 +36,10 @@ public class PostController {
     @DeleteMapping("/posts/{postId}")
     public PostDeleteResponse deletePost(@PathVariable final Long postId) {
         return postService.deletePost(postId);
+    }
+
+    @GetMapping("/posts/{postId}")
+    public PostResponse getPost(@PathVariable final Long postId) {
+        return postService.getPost(postId);
     }
 }

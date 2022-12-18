@@ -38,4 +38,11 @@ public class PostService {
         postRepository.delete(post);
         return new PostDeleteResponse(true);
     }
+
+    public PostResponse getPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+
+        return PostResponse.from(post);
+    }
 }
