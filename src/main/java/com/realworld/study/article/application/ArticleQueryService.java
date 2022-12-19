@@ -4,6 +4,8 @@ import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleQueryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,9 @@ public class ArticleQueryService {
 
     private final ArticleQueryRepository articleQueryRepository;
 
-    public List<Article> getArticles(final Pageable pageable) {
-        return articleQueryRepository.findAll(pageable);
+    public Page<Article> getArticles(final Pageable pageable) {
+        List<Article> articles = articleQueryRepository.findAll(pageable);
+
+        return new PageImpl<>(articles, pageable, articles.size());
     }
 }
