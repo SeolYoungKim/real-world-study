@@ -10,6 +10,7 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table
@@ -42,15 +43,13 @@ public class Article {
     }
 
     public void update(String title, String description, String body) {
-        // TODO: StringUtil.hasText
-
-        if (title != null) {
+        if (StringUtils.hasText(title)) {
             this.title = title;
         }
-        if (description != null) {
+        if (StringUtils.hasText(description)) {
             this.description = description;
         }
-        if (body != null) {
+        if (StringUtils.hasText(body)) {
             this.body = body;
         }
     }
