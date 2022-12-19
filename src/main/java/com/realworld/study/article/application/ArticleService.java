@@ -1,6 +1,6 @@
 package com.realworld.study.article.application;
 
-import com.realworld.study.article.application.dto.ArticleRequest;
+import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
@@ -15,8 +15,8 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public Article save(final ArticleRequest articleRequest) {
-        return articleRepository.save(articleRequest.toEntity());
+    public Article createArticle(final ArticleCreateRequest articleCreateRequest) {
+        return articleRepository.save(articleCreateRequest.toEntity());
     }
 
     public void update(final Long id, final ArticleUpdateRequest articleUpdateRequest) {

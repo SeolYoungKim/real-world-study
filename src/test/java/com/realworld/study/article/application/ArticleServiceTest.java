@@ -2,7 +2,7 @@ package com.realworld.study.article.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.realworld.study.article.application.dto.ArticleRequest;
+import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
@@ -23,9 +23,9 @@ class ArticleServiceTest {
 
     @DisplayName("게시글이 정상적으로 저장된다.")
     @Test
-    void save() {
-        ArticleRequest articleRequest = new ArticleRequest("article", "this is an article", "body");
-        Article saved = articleService.save(articleRequest);
+    void create() {
+        ArticleCreateRequest articleCreateRequest = new ArticleCreateRequest("article", "this is an article", "body");
+        Article saved = articleService.createArticle(articleCreateRequest);
 
         Optional<Article> article = articleRepository.findById(saved.getId());
 

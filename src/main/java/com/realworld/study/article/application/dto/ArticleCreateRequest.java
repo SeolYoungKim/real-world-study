@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class ArticleRequest {
+public class ArticleCreateRequest {
 
     private String title;
     private String description;
     private String body;
 
-    public ArticleRequest(String title, String description, String body) {
+    public ArticleCreateRequest(String title, String description, String body) {
         this.title = title;
         this.description = description;
         this.body = body;
