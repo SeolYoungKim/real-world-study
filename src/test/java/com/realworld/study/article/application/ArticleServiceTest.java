@@ -62,7 +62,7 @@ class ArticleServiceTest {
         Article article1 = articleRepository.save(new Article("article", "description", "body"));
         Article article2 = articleRepository.save(new Article("article2", "description2", "body2"));
 
-        Article found1 = articleService.findById(article1.getId());
+        Article found1 = articleService.getArticle(article1.getId());
 
         assertThat(found1.getTitle()).isEqualTo("article");
         assertThat(found1.getDescription()).isEqualTo("description");

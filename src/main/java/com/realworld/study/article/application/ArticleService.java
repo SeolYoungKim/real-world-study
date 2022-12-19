@@ -33,7 +33,7 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
-    public Article findById(final Long id) {
+    public Article getArticle(final Long id) {
         return articleRepository.findById(id).orElseThrow();
     }
 }
