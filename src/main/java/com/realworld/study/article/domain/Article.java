@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "article")
+@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Article {
@@ -21,13 +21,13 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String description;
 
-    @Column(name = "body", nullable = false)
+    @Column(nullable = false)
     private String body;
 
     public Article(Long id, String title, String description, String body) {
