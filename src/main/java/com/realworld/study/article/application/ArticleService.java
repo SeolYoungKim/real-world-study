@@ -19,7 +19,7 @@ public class ArticleService {
         return articleRepository.save(articleCreateRequest.toEntity());
     }
 
-    public void update(final Long id, final ArticleUpdateRequest articleUpdateRequest) {
+    public void updateArticle(final Long id, final ArticleUpdateRequest articleUpdateRequest) {
         Article article = articleRepository.findById(id).orElseThrow();
 
         article.update(articleUpdateRequest.getTitle(),
@@ -29,7 +29,7 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public void delete(final Long id) {
+    public void deleteArticle(final Long id) {
         articleRepository.deleteById(id);
     }
 

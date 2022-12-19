@@ -38,7 +38,7 @@ class ArticleServiceTest {
         Article article = articleRepository.save(new Article("article", "description", "body"));
 
         ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest("article2", "description2", "body2");
-        articleService.update(article.getId(), articleUpdateRequest);
+        articleService.updateArticle(article.getId(), articleUpdateRequest);
         
         Article updated = articleRepository.findById(article.getId()).orElseThrow();
 
@@ -51,7 +51,7 @@ class ArticleServiceTest {
     @Test
     void delete() {
         Article article = articleRepository.save(new Article("article", "description", "body"));
-        articleService.delete(article.getId());
+        articleService.deleteArticle(article.getId());
 
         assertThat(articleRepository.existsById(article.getId())).isEqualTo(false);
     }
