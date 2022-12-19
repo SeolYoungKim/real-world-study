@@ -40,7 +40,7 @@ class ArticleServiceTest {
         ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest("article2", "description2", "body2");
         articleService.update(article.getId(), articleUpdateRequest);
         
-        Article updated = articleRepository.findById(article.getId()).get();
+        Article updated = articleRepository.findById(article.getId()).orElseThrow();
 
         assertThat(updated.getTitle()).isEqualTo("article2");
         assertThat(updated.getDescription()).isEqualTo("description2");
