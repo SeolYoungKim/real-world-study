@@ -32,4 +32,8 @@ public class ArticleService {
     public void delete(final Long id) {
         articleRepository.deleteById(id);
     }
+
+    public Article findById(final Long id) {
+        return articleRepository.findById(id).orElseThrow();
+    }
 }
