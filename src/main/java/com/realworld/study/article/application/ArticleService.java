@@ -22,15 +22,9 @@ public class ArticleService {
     public void update(final Long id, final ArticleUpdateRequest articleUpdateRequest) {
         Article article = articleRepository.findById(id).orElseThrow();
 
-        if (articleUpdateRequest.getTitle() != null) { // TODO: StringUtil.hasText
-            article.setTitle(articleUpdateRequest.getTitle());
-        }
-        if (articleUpdateRequest.getDescription() != null) {
-            article.setDescription(articleUpdateRequest.getDescription());
-        }
-        if (articleUpdateRequest.getBody() != null) {
-            article.setBody(articleUpdateRequest.getBody());
-        }
+        article.update(articleUpdateRequest.getTitle(),
+                articleUpdateRequest.getDescription(),
+                articleUpdateRequest.getBody());
 
         articleRepository.save(article);
     }

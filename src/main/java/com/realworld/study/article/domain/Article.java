@@ -41,16 +41,18 @@ public class Article {
         this(null, title, description, body);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void update(String title, String description, String body) {
+        // TODO: StringUtil.hasText
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
+        if (title != null) {
+            this.title = title;
+        }
+        if (description != null) {
+            this.description = description;
+        }
+        if (body != null) {
+            this.body = body;
+        }
     }
 
     @Override
