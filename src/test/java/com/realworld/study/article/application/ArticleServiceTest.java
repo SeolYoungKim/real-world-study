@@ -58,7 +58,7 @@ class ArticleServiceTest {
 
     @DisplayName("단건 조회가 정상적으로 작동된다.")
     @Test
-    void findById() {
+    void getOne() {
         Article article1 = articleRepository.save(new Article("article", "description", "body"));
         Article article2 = articleRepository.save(new Article("article2", "description2", "body2"));
 
