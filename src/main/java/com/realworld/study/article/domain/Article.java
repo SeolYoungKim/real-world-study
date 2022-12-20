@@ -1,5 +1,6 @@
 package com.realworld.study.article.domain;
 
+import com.realworld.study.common.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import org.springframework.util.StringUtils;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Article {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
