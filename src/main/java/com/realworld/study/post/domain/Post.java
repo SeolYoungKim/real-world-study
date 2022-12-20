@@ -17,9 +17,6 @@ public class Post {
     private PostTitle title;
 
     @Embedded
-    private PostDescription description;
-
-    @Embedded
     private PostBody body;
 
     @CreatedDate
@@ -34,25 +31,22 @@ public class Post {
 
     public Post(
         PostTitle title,
-        PostDescription description,
         PostBody body,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
-        this(null, title, description, body, createdAt, updatedAt);
+        this(null, title, body, createdAt, updatedAt);
     }
 
     public Post(
         Long id,
         PostTitle title,
-        PostDescription description,
         PostBody body,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
         this.id = id;
         this.title = title;
-        this.description = description;
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -64,10 +58,6 @@ public class Post {
 
     public String getTitle() {
         return title.getTitle();
-    }
-
-    public String getDescription() {
-        return description.getDescription();
     }
 
     public String getBody() {
