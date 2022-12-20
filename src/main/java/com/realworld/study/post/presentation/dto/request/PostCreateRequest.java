@@ -1,5 +1,6 @@
 package com.realworld.study.post.presentation.dto.request;
 
+import com.realworld.study.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,9 @@ public class PostCreateRequest {  // @RequestBody : Json -> DTO "objectMapper" r
     public PostCreateRequest(final String title, final String contents) {
         this.title = title;
         this.contents = contents;
+    }
+
+    public Post toPost() {
+        return new Post(title, contents);
     }
 }

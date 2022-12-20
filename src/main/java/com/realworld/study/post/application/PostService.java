@@ -19,7 +19,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponse createPost(final PostCreateRequest postCreateRequest) {
-        Post post = new Post(postCreateRequest.getTitle(), postCreateRequest.getContents());
+        Post post = postCreateRequest.toPost();
         postRepository.save(post);
 
         return PostResponse.from(post);
@@ -29,7 +29,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
 
-        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContents());
+        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContents());  //TODO 이 부분의 DTO 의존성을 없앨 수는 없을까?
         return PostResponse.from(post);
     }
 
