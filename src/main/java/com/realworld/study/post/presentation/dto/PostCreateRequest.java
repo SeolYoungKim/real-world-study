@@ -1,4 +1,4 @@
-package com.realworld.study.post.presentation.dto.request;
+package com.realworld.study.post.presentation.dto;
 
 import com.realworld.study.post.domain.Post;
 import lombok.AccessLevel;

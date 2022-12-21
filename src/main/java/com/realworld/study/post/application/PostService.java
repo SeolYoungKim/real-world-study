@@ -2,10 +2,10 @@ package com.realworld.study.post.application;
 
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostRepository;
-import com.realworld.study.post.presentation.dto.request.PostCreateRequest;
-import com.realworld.study.post.presentation.dto.request.PostUpdateRequest;
-import com.realworld.study.post.presentation.dto.response.PostDeleteResponse;
-import com.realworld.study.post.presentation.dto.response.PostResponse;
+import com.realworld.study.post.presentation.dto.PostCreateRequest;
+import com.realworld.study.post.presentation.dto.PostUpdateRequest;
+import com.realworld.study.post.application.dto.PostDeleteResponse;
+import com.realworld.study.post.application.dto.PostResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

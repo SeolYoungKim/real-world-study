@@ -1,4 +1,4 @@
-package com.realworld.study.post.presentation.dto.response;
+package com.realworld.study.post.application.dto;
 
 import com.realworld.study.post.domain.Post;
 import java.time.LocalDateTime;

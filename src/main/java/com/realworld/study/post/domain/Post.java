@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 @Getter
 @Entity  //TODO Entity 애노테이션에는 왜 아래와 같은 "기본 생성자"가 필요한가?
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  //TODO CGLIB
 public class Post extends BaseTimeEntity {
     @Id @Column(name = "post_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //TODO 이 애너테이션의 역할은 ?
