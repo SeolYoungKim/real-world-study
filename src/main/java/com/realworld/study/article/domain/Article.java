@@ -6,7 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,7 +15,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 @Entity
-@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Article extends BaseEntity {
@@ -32,15 +32,20 @@ public class Article extends BaseEntity {
     @Column(nullable = false)
     private String body;
 
-    public Article(Long id, String title, String description, String body) {
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
+
+    public Article(Long id, String title, String description, String body, User author) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.body = body;
+        this.author = author;
     }
 
-    public Article(String title, String description, String body) {
-        this(null, title, description, body);
+    public Article(String title, String description, String body, User author) {
+        this(null, title, description, body, author);
     }
 
     public void update(String title, String description, String body) {

@@ -6,6 +6,7 @@ import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
+import com.realworld.study.article.domain.User;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 저장된다.")
     @Test
     void create() {
-        ArticleCreateRequest articleCreateRequest = new ArticleCreateRequest("article", "this is an article", "body");
+        User author = new User("user@gmail.com", "user", "bio", null);
+        ArticleCreateRequest articleCreateRequest = new ArticleCreateRequest("article", "this is an article", "body", author);
         Article saved = articleService.createArticle(articleCreateRequest);
 
         Optional<Article> article = articleRepository.findById(saved.getId());
@@ -35,7 +37,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 수정된다.")
     @Test
     void update() {
-        Article article = articleRepository.save(new Article("article", "description", "body"));
+        User author = new User("user@gmail.com", "user", "bio", null);
+        Article article = articleRepository.save(new Article("article", "description", "body", author));
 
         ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest("article2", "description2", "body2");
         articleService.updateArticle(article.getId(), articleUpdateRequest);
@@ -50,7 +53,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 삭제된다.")
     @Test
     void delete() {
-        Article article = articleRepository.save(new Article("article", "description", "body"));
+        User author = new User("user@gmail.com", "user", "bio", null);
+        Article article = articleRepository.save(new Article("article", "description", "body", author));
         articleService.deleteArticle(article.getId());
 
         assertThat(articleRepository.existsById(article.getId())).isEqualTo(false);
@@ -59,8 +63,9 @@ class ArticleServiceTest {
     @DisplayName("단건 조회가 정상적으로 작동된다.")
     @Test
     void getOne() {
-        Article article1 = articleRepository.save(new Article("article", "description", "body"));
-        Article article2 = articleRepository.save(new Article("article2", "description2", "body2"));
+        User author = new User("user@gmail.com", "user", "bio", null);
+        Article article1 = articleRepository.save(new Article("article", "description", "body", author));
+        Article article2 = articleRepository.save(new Article("article2", "description2", "body2", author));
 
         Article found1 = articleService.getArticle(article1.getId());
 
