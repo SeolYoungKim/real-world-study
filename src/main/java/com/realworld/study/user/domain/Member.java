@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,6 +45,7 @@ public class Member extends BaseTimeEntity {
     public Member(final String email, final String password, final String memberName,
             final String bio, final String image) {
         validatePassword(password);
+        validateMemberName(memberName);
         this.email = new Email(email);
         this.password = password;
         this.memberName = memberName;
@@ -68,6 +70,12 @@ public class Member extends BaseTimeEntity {
     private void validatePassword(String password) {
         if (password.length() < 8) {
             throw new IllegalArgumentException("비밀번호는 8자리 이상 입력해 주세요.");
+        }
+    }
+
+    private void validateMemberName(String memberName) {
+        if (!StringUtils.hasText(memberName)) {
+            throw new IllegalArgumentException("이름은 필수 항목입니다.");
         }
     }
 }

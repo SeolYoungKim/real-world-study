@@ -32,7 +32,7 @@ public class PostController {
 
     //TODO 인증 도입 후 삭제 예정
     private static Member fakeMember() {
-        return new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+        return new Member("email@domain.com", "12345678", "kim", "my name is...", "image");
     }
 
     @PutMapping("/posts/{postId}")

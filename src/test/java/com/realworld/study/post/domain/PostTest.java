@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class PostTest {
-    private final Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+    private final Member fakeMember = new Member("email@domain.com", "12345678", "kim", "my name is...", "image");
 
     @DisplayName("Post를 생성할 때")
     @Nested

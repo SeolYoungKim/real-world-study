@@ -31,7 +31,7 @@ class PostRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+        Member fakeMember = new Member("email@domain.com", "12345678", "kim", "my name is...", "image");
         memberRepository.save(fakeMember);
 
         List<Post> posts = IntStream.rangeClosed(1, postNumbers)

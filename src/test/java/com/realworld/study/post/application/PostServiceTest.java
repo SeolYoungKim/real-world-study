@@ -32,7 +32,7 @@ class PostServiceTest {
 
     private PostService postService;
 
-    private final Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+    private final Member fakeMember = new Member("email@domain.com", "12345678", "kim", "my name is...", "image");
 
     @BeforeEach
     void setUp() {
