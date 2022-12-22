@@ -30,7 +30,7 @@ public class Member extends BaseTimeEntity {
     private String password;
 
     @Column
-    private String name;
+    private String memberName;
 
     @Column
     private String bio;
@@ -41,16 +41,26 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "author")
     private final List<Post> posts = new ArrayList<>();
 
-    public Member(final String email, final String password, final String name,
+    public Member(final String email, final String password, final String memberName,
             final String bio, final String image) {
         this.email = new Email(email);
         this.password = password;
-        this.name = name;
+        this.memberName = memberName;
         this.bio = bio;
         this.image = image;
     }
 
     public void addPost(final Post post) {
         posts.add(post);
+    }
+
+    public String getEmailValue() {
+        return email.getValue();
+    }
+
+    public void update(final String email, final String bio, final String image) {
+        this.email = new Email(email);
+        this.bio = bio;  //TODO 없앨 가능성도 고려해서 따로 null 체크 안함
+        this.image = image;
     }
 }

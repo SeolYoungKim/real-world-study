@@ -4,6 +4,7 @@ import com.realworld.study.user.application.dto.MemberAuthResponse;
 import com.realworld.study.user.domain.Member;
 import com.realworld.study.user.domain.MemberRepository;
 import com.realworld.study.user.presentation.dto.MemberSignupRequest;
+import com.realworld.study.user.presentation.dto.MemberUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,17 @@ public class MemberService {
         String token = "token";  // 인증 객체로부터 획득
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+
+        return MemberAuthResponse.from(member, token);
+    }
+
+    public MemberAuthResponse updateMember(MemberUpdateRequest updateRequest) {
+        //TODO 인증 객체가 넘어오면 그를 기반으로 멤버를 조회해야 한다.
+        Long memberId = 1L;  // 인증 객체로부터 획득
+        String token = "token";  // 인증 객체로부터 획득
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        member.update(updateRequest.getEmail(), updateRequest.getBio(), updateRequest.getImage());
 
         return MemberAuthResponse.from(member, token);
     }
