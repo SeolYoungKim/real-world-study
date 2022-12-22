@@ -26,7 +26,7 @@ public final class PostResponse {
     }
 
     @Builder
-    public PostResponse(Long id, String title, String contents, String author,
+    private PostResponse(Long id, String title, String contents, String author,
             LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
