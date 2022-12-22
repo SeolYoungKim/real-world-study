@@ -57,11 +57,12 @@ public class Post extends BaseTimeEntity {
         if (other == null) {
             return mine;
         }
+
         return other;
     }
 
     public String getAuthorName() {
-        return author.getName();
+        return author.getMemberName();
     }
 
     @Override
