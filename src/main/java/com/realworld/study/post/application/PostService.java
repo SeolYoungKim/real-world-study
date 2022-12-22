@@ -26,13 +26,13 @@ public class PostService {
         // 현재는 인증을 구현하지 않아 아래의 방식으로 대체한다.
         memberRepository.save(member);
 
-        Post post = postFrom(postCreateRequest, member);
+        Post post = getPostBy(postCreateRequest, member);
         postRepository.save(post);
 
         return PostResponse.from(post);
     }
 
-    private Post postFrom(final PostCreateRequest dto, final Member member) {
+    private Post getPostBy(final PostCreateRequest dto, final Member member) {
         return new Post(dto.getTitle(), dto.getContents(), member);
     }
 
