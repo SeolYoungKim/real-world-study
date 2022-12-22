@@ -6,6 +6,8 @@ import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
 import com.realworld.study.post.application.dto.PostDeleteResponse;
 import com.realworld.study.post.application.dto.PostResponse;
+import com.realworld.study.user.domain.Member;
+import com.realworld.study.user.domain.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,12 +19,21 @@ import org.springframework.stereotype.Service;
 @Service  //TODO CGLIB (PROXY) 상속
 public class PostService {
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
-    public PostResponse createPost(final PostCreateRequest postCreateRequest) {
-        Post post = postCreateRequest.toPost();
+    public PostResponse createPost(final PostCreateRequest postCreateRequest, final Member member) {
+        //TODO 원래는 인증 객체에서 member 식별자를 꺼내서, memberRepository에서 멤버를 조회해서 사용해야 한다.
+        // 현재는 인증을 구현하지 않아 아래의 방식으로 대체한다.
+        memberRepository.save(member);
+
+        Post post = postFrom(postCreateRequest, member);
         postRepository.save(post);
 
         return PostResponse.from(post);
+    }
+
+    private Post postFrom(final PostCreateRequest dto, final Member member) {
+        return new Post(dto.getTitle(), dto.getContents(), member);
     }
 
     public PostResponse updatePost(final Long postId, final PostUpdateRequest postUpdateRequest) {

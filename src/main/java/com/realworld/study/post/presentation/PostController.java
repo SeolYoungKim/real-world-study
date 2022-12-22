@@ -1,10 +1,11 @@
 package com.realworld.study.post.presentation;
 
 import com.realworld.study.post.application.PostService;
-import com.realworld.study.post.presentation.dto.PostCreateRequest;
-import com.realworld.study.post.presentation.dto.PostUpdateRequest;
 import com.realworld.study.post.application.dto.PostDeleteResponse;
 import com.realworld.study.post.application.dto.PostResponse;
+import com.realworld.study.post.presentation.dto.PostCreateRequest;
+import com.realworld.study.post.presentation.dto.PostUpdateRequest;
+import com.realworld.study.user.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,13 @@ public class PostController {
 
     @PostMapping("/posts")
     public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest) {
-        return postService.createPost(postCreateRequest);
+        Member member = fakeMember();
+        return postService.createPost(postCreateRequest, member);
+    }
+
+    //TODO 인증 도입 후 삭제 예정
+    private static Member fakeMember() {
+        return new Member("email@domain.com", "1234", "kim", "my name is...", "image");
     }
 
     @PutMapping("/posts/{postId}")

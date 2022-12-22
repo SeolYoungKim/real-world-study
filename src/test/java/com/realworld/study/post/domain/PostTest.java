@@ -3,6 +3,7 @@ package com.realworld.study.post.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.realworld.study.user.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,16 +12,19 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class PostTest {
+    private final Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+
     @DisplayName("Post를 생성할 때")
     @Nested
     class construct {
         private final String title = "제목";
         private final String contents = "내용";
 
+
         @DisplayName("제목과 내용이 모두 전달된 경우 성공적으로 생성된다.")
         @Test
         void constructSuccess() {
-            new Post(title, contents);
+            new Post(title, contents, fakeMember);
         }
 
         @DisplayName("제목 또는 내용이 전달되지 않은 경우 예외를 발생시킨다.")
@@ -31,7 +35,7 @@ class PostTest {
             @ParameterizedTest(name = "제목이 전달되지 않은 경우. 입력: {0}")
             @NullAndEmptySource
             void notReceivedTitle(String nullOrEmpty) {
-                assertThatThrownBy(() -> new Post(nullOrEmpty, contents))
+                assertThatThrownBy(() -> new Post(nullOrEmpty, contents, fakeMember))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining(EXCEPTION_MESSAGE);
             }
@@ -39,7 +43,7 @@ class PostTest {
             @ParameterizedTest(name = "내용이 전달되지 않은 경우. 입력: {0}")
             @NullAndEmptySource
             void notReceivedContents(String nullOrEmpty) {
-                assertThatThrownBy(() -> new Post(title, nullOrEmpty))
+                assertThatThrownBy(() -> new Post(title, nullOrEmpty, fakeMember))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining(EXCEPTION_MESSAGE);
             }
@@ -47,7 +51,7 @@ class PostTest {
             @ParameterizedTest(name = "내용이 전달되지 않은 경우. 입력: {0}")
             @NullAndEmptySource
             void notReceivedAnyParams(String nullOrEmpty) {
-                assertThatThrownBy(() -> new Post(nullOrEmpty, nullOrEmpty))
+                assertThatThrownBy(() -> new Post(nullOrEmpty, nullOrEmpty, fakeMember))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining(EXCEPTION_MESSAGE);
             }
@@ -61,7 +65,7 @@ class PostTest {
 
         @BeforeEach
         void setUp() {
-            post = new Post("제목", "내용");
+            post = new Post("제목", "내용", fakeMember);
         }
 
         @DisplayName("제목과 내용을 변경할 값이 모두 전달된 경우 제목과 내용이 모두 변경된다.")

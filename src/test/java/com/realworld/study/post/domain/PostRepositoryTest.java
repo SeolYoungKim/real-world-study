@@ -3,6 +3,8 @@ package com.realworld.study.post.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.realworld.study.post.TestConfig;
+import com.realworld.study.user.domain.Member;
+import com.realworld.study.user.domain.MemberRepository;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,20 +17,25 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Import(TestConfig.class)
 @DataJpaTest
 class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
     private final int postNumbers = 20;
 
     @BeforeEach
     void setUp() {
+        Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
+        memberRepository.save(fakeMember);
+
         List<Post> posts = IntStream.rangeClosed(1, postNumbers)
-                .mapToObj(i -> new Post("title" + i, "contents" + i))
+                .mapToObj(i -> new Post("title" + i, "contents" + i, fakeMember))
                 .toList();
         postRepository.saveAll(posts);
     }

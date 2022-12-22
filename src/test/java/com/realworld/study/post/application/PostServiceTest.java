@@ -5,12 +5,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.realworld.study.post.application.dto.PostDeleteResponse;
+import com.realworld.study.post.application.dto.PostResponse;
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostRepository;
 import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
-import com.realworld.study.post.application.dto.PostDeleteResponse;
-import com.realworld.study.post.application.dto.PostResponse;
+import com.realworld.study.user.domain.Member;
+import com.realworld.study.user.domain.MemberRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,11 +31,17 @@ import org.springframework.transaction.annotation.Transactional;
 class PostServiceTest {
     @Mock
     private PostRepository postRepository;
+
+    @Mock
+    private MemberRepository memberRepository;
+
     private PostService postService;
+
+    private final Member fakeMember = new Member("email@domain.com", "1234", "kim", "my name is...", "image");
 
     @BeforeEach
     void setUp() {
-        postService = new PostService(postRepository);
+        postService = new PostService(postRepository, memberRepository);
     }
 
     @DisplayName("게시글을 생성할 때")
@@ -44,11 +52,10 @@ class PostServiceTest {
         void createSuccess() {
             String title = "제목";
             String contents = "내용";
-            Post post = new Post(title, contents);
-            when(postRepository.save(any(Post.class))).thenReturn(post);
+            when(memberRepository.save(any(Member.class))).thenReturn(fakeMember);
 
             PostCreateRequest postCreateRequest = new PostCreateRequest(title, contents);
-            PostResponse postResponse = postService.createPost(postCreateRequest);
+            PostResponse postResponse = postService.createPost(postCreateRequest, fakeMember);
 
             assertThat(postResponse.getTitle()).isEqualTo(title);
             assertThat(postResponse.getContents()).isEqualTo(contents);
@@ -67,7 +74,7 @@ class PostServiceTest {
         void setUp() {
             String titleBeforeUpdate = "제목";
             String contentsBeforeUpdate = "내용";
-            post = new Post(titleBeforeUpdate, contentsBeforeUpdate);
+            post = new Post(titleBeforeUpdate, contentsBeforeUpdate, fakeMember);
 
             String updatedTitle = "title";
             String updatedContents = "contents";
@@ -109,7 +116,7 @@ class PostServiceTest {
         void setUp() {
             String title = "제목";
             String contents = "내용";
-            post = new Post(title, contents);
+            post = new Post(title, contents, fakeMember);
         }
 
         @DisplayName("아이디에 해당하는 게시글이 있는 경우 게시글이 성공적으로 삭제된다.")
