@@ -11,7 +11,6 @@ public class PostTitle {
     private String title;
 
     protected PostTitle() {
-
     }
 
     public PostTitle(String title) {

@@ -13,7 +13,6 @@ public class PostBody {
     private String body;
 
     protected PostBody() {
-
     }
 
     public PostBody(String body) {

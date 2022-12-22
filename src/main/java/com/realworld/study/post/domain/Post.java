@@ -26,7 +26,6 @@ public class Post {
     private LocalDateTime updatedAt;
 
     protected Post() {
-
     }
 
     public Post(
@@ -70,9 +69,5 @@ public class Post {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void updateTitle(String title) {
-        this.title = new PostTitle(title);
     }
 }
