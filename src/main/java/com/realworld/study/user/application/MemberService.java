@@ -27,8 +27,17 @@ public class MemberService {
     }
 
     private Member getMemberBy(final MemberSignupRequest dto) {
-        return new Member(dto.getEmail(), dto.getPassword(), dto.getMemberName(),
+        String memberName = dto.getMemberName();
+        validateDuplicationOf(memberName);
+
+        return new Member(dto.getEmail(), dto.getPassword(), memberName,
                 "", "");
+    }
+
+    private void validateDuplicationOf(final String memberName) {
+        if (memberRepository.existsByMemberName(memberName)) {
+            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+        }
     }
 
     @Transactional(readOnly = true)
