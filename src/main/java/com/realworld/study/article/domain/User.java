@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String bio;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String image;
 
     public User(Long id, String email, String username, String bio, String image) {
