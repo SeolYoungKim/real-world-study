@@ -8,11 +8,11 @@ import com.realworld.study.post.application.dto.PostDeleteResponse;
 import com.realworld.study.post.application.dto.PostResponse;
 import com.realworld.study.user.domain.Member;
 import com.realworld.study.user.domain.MemberRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional  //TODO 이 애노테이션이 필요한 이유와 기전
@@ -52,6 +52,7 @@ public class PostService {
         return new PostDeleteResponse(true);
     }
 
+    @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
@@ -59,6 +60,7 @@ public class PostService {
         return PostResponse.from(post);
     }
 
+    @Transactional(readOnly = true)
     public Page<PostResponse> getPosts(Pageable pageable) {
         Page<Post> posts = postRepository.pagedPosts(pageable);
         return posts.map(PostResponse::from);
