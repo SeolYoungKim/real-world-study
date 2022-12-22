@@ -1,6 +1,7 @@
 package com.realworld.study.user.application;
 
 import com.realworld.study.user.application.dto.MemberAuthResponse;
+import com.realworld.study.user.application.dto.MemberProfileResponse;
 import com.realworld.study.user.domain.Member;
 import com.realworld.study.user.domain.MemberRepository;
 import com.realworld.study.user.presentation.dto.MemberSignupRequest;
@@ -50,5 +51,13 @@ public class MemberService {
         member.update(updateRequest.getEmail(), updateRequest.getBio(), updateRequest.getImage());
 
         return MemberAuthResponse.from(member, token);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberProfileResponse getProfile(String memberName) {
+        Member member = memberRepository.findByMemberName(memberName)
+                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+
+        return MemberProfileResponse.from(member);
     }
 }
