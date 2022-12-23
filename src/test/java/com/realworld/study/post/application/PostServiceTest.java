@@ -5,14 +5,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.realworld.study.member.domain.Member;
+import com.realworld.study.member.domain.MemberRepository;
 import com.realworld.study.post.application.dto.PostDeleteResponse;
 import com.realworld.study.post.application.dto.PostResponse;
 import com.realworld.study.post.domain.Post;
+import com.realworld.study.post.domain.PostQueryRepository;
 import com.realworld.study.post.domain.PostRepository;
 import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
-import com.realworld.study.member.domain.Member;
-import com.realworld.study.member.domain.MemberRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +23,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     @Mock
     private PostRepository postRepository;
+
+    @Mock
+    private PostQueryRepository postQueryRepository;
 
     @Mock
     private MemberRepository memberRepository;
@@ -36,7 +45,7 @@ class PostServiceTest {
 
     @BeforeEach
     void setUp() {
-        postService = new PostService(postRepository, memberRepository);
+        postService = new PostService(postRepository, postQueryRepository, memberRepository);
     }
 
     @DisplayName("게시글을 생성할 때")
@@ -135,6 +144,27 @@ class PostServiceTest {
             assertThatThrownBy(() -> postService.deletePost(anyPostId))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
+        }
+    }
+
+    @DisplayName("여러건의 게시글을 조회할 때")
+    @Nested
+    class read {
+        @DisplayName("저장된 Post의 개수만큼 Page<PostResponse>를 반환한다")
+        @Test
+        void getPosts() {
+            List<Post> posts = List.of(
+                    new Post("title1", "contents1", fakeMember),
+                    new Post("title2", "contents2", fakeMember),
+                    new Post("title3", "contents3", fakeMember));
+            Page<Post> page = new PageImpl<>(posts);
+            when(postQueryRepository.pagedPosts(any(Pageable.class))).thenReturn(page);
+
+            Pageable pageable = PageRequest.of(0, 1);
+            Page<PostResponse> result = postService.getPosts(pageable);
+
+            List<PostResponse> postResponses = result.stream().toList();
+            assertThat(postResponses).hasSize(3);
         }
     }
 }
