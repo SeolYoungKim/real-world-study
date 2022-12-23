@@ -1,6 +1,7 @@
 package com.realworld.study.post.application;
 
 import com.realworld.study.post.domain.Post;
+import com.realworld.study.post.domain.PostQueryRepository;
 import com.realworld.study.post.domain.PostRepository;
 import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service  //TODO CGLIB (PROXY) 상속
 public class PostService {
     private final PostRepository postRepository;
+    private final PostQueryRepository postQueryRepository;
     private final MemberRepository memberRepository;
 
     public PostResponse createPost(final PostCreateRequest postCreateRequest, final Member member) {
@@ -62,7 +64,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<PostResponse> getPosts(Pageable pageable) {
-        Page<Post> posts = postRepository.pagedPosts(pageable);
+        Page<Post> posts = postQueryRepository.pagedPosts(pageable);
         return posts.map(PostResponse::from);
     }
 }

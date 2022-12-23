@@ -9,18 +9,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
-public class PostRepositoryImpl implements PostRepositoryCustom {
+@Repository
+public class PostQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    @Override
+    //TODO 프로젝션 or 상속 포기
     public Page<Post> pagedPosts(Pageable pageable) {
         List<Post> postResponses = queryFactory.select(post)
                 .from(post)
+                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(post.id.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(post.count())
