@@ -1,11 +1,11 @@
-package com.realworld.study.user.application;
+package com.realworld.study.member.application;
 
-import com.realworld.study.user.application.dto.MemberAuthResponse;
-import com.realworld.study.user.application.dto.MemberProfileResponse;
-import com.realworld.study.user.domain.Member;
-import com.realworld.study.user.domain.MemberRepository;
-import com.realworld.study.user.presentation.dto.MemberSignupRequest;
-import com.realworld.study.user.presentation.dto.MemberUpdateRequest;
+import com.realworld.study.member.application.dto.MemberAuthResponse;
+import com.realworld.study.member.application.dto.MemberProfileResponse;
+import com.realworld.study.member.domain.Member;
+import com.realworld.study.member.domain.MemberRepository;
+import com.realworld.study.member.presentation.dto.MemberSignupRequest;
+import com.realworld.study.member.presentation.dto.MemberUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

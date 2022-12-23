@@ -1,4 +1,4 @@
-package com.realworld.study.user.domain;
+package com.realworld.study.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

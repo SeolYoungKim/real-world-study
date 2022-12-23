@@ -1,4 +1,4 @@
-package com.realworld.study.user.domain;
+package com.realworld.study.member.domain;
 
 import com.realworld.study.BaseTimeEntity;
 import com.realworld.study.post.domain.Post;

@@ -1,7 +1,7 @@
 package com.realworld.study.post.domain;
 
 import com.realworld.study.BaseTimeEntity;
-import com.realworld.study.user.domain.Member;
+import com.realworld.study.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

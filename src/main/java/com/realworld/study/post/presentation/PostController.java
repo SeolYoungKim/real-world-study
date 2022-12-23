@@ -5,7 +5,7 @@ import com.realworld.study.post.application.dto.PostDeleteResponse;
 import com.realworld.study.post.application.dto.PostResponse;
 import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
-import com.realworld.study.user.domain.Member;
+import com.realworld.study.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

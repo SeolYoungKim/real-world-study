@@ -1,6 +1,6 @@
-package com.realworld.study.user.application;
+package com.realworld.study.member.application;
 
-import com.realworld.study.user.domain.MemberRepository;
+import com.realworld.study.member.domain.MemberRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;

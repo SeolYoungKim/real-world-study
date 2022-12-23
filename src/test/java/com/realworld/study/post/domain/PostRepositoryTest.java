@@ -3,8 +3,8 @@ package com.realworld.study.post.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.realworld.study.post.TestConfig;
-import com.realworld.study.user.domain.Member;
-import com.realworld.study.user.domain.MemberRepository;
+import com.realworld.study.member.domain.Member;
+import com.realworld.study.member.domain.MemberRepository;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;

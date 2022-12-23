@@ -1,4 +1,4 @@
-package com.realworld.study.user.domain;
+package com.realworld.study.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

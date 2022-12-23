@@ -1,4 +1,4 @@
-package com.realworld.study.user.presentation.dto;
+package com.realworld.study.member.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

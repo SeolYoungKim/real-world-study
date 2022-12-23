@@ -1,6 +1,6 @@
-package com.realworld.study.user.application.dto;
+package com.realworld.study.member.application.dto;
 
-import com.realworld.study.user.domain.Member;
+import com.realworld.study.member.domain.Member;
 import lombok.Getter;
 
 @Getter
