@@ -16,6 +16,7 @@ import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -153,11 +154,15 @@ class PostServiceTest {
         @DisplayName("저장된 Post의 개수만큼 Page<PostResponse>를 반환한다")
         @Test
         void getPosts() {
-            List<Post> posts = List.of(
-                    new Post("title1", "contents1", fakeMember),
-                    new Post("title2", "contents2", fakeMember),
-                    new Post("title3", "contents3", fakeMember));
-            Page<Post> page = new PageImpl<>(posts);
+            List<PostResponse> postResponsesForMock = LongStream.rangeClosed(1, 3)
+                    .mapToObj(l -> PostResponse.builder()
+                            .id(l)
+                            .title("title" + l)
+                            .contents("contents" + l)
+                            .build())
+                    .toList();
+
+            Page<PostResponse> page = new PageImpl<>(postResponsesForMock);
             when(postQueryRepository.pagedPosts(any(Pageable.class))).thenReturn(page);
 
             Pageable pageable = PageRequest.of(0, 1);

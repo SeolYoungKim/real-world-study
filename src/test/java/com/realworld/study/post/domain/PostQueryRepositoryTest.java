@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
+import com.realworld.study.post.application.dto.PostResponse;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,7 @@ class PostQueryRepositoryTest {
         @Test
         void pagingTest() {
             Pageable pageable = PageRequest.of(0, 5);
-            Page<Post> page = postQueryRepository.pagedPosts(pageable);
+            Page<PostResponse> page = postQueryRepository.pagedPosts(pageable);
 
             assertThat(page.getTotalPages()).isEqualTo(4);
             assertThat(page.getTotalElements()).isEqualTo(postNumbers);
@@ -59,12 +60,12 @@ class PostQueryRepositoryTest {
         @Test
         void descTest() {
             Pageable pageable = PageRequest.of(0, 5);
-            Page<Post> page = postQueryRepository.pagedPosts(pageable);
+            Page<PostResponse> page = postQueryRepository.pagedPosts(pageable);
 
-            List<Post> posts = page.toList();
-            Post post = posts.get(0);
+            List<PostResponse> postResponses = page.toList();
+            PostResponse postResponse = postResponses.get(0);
 
-            assertThat(post.getTitle()).isEqualTo("title" + postNumbers);
+            assertThat(postResponse.getTitle()).isEqualTo("title" + postNumbers);
         }
     }
 }

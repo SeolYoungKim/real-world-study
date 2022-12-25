@@ -64,7 +64,6 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<PostResponse> getPosts(Pageable pageable) {
-        Page<Post> posts = postQueryRepository.pagedPosts(pageable);
-        return posts.map(PostResponse::from);
+        return postQueryRepository.pagedPosts(pageable);
     }
 }
