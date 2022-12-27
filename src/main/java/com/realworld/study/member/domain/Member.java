@@ -80,4 +80,8 @@ public class Member extends BaseTimeEntity {
             throw new IllegalArgumentException("이름은 필수 항목입니다.");
         }
     }
+
+    public boolean isAuthorOf(Post post) {
+        return posts.contains(post);
+    }
 }

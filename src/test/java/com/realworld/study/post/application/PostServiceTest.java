@@ -98,7 +98,10 @@ class PostServiceTest {
         @Test
         void updateSuccess() {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
-            PostResponse postResponse = postService.updatePost(anyPostId, postUpdateRequest);
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(member));
+
+            PostResponse postResponse = postService.updatePost(anyPostId, postUpdateRequest,
+                    new FakeAuthentication());
 
             String updatedTitle = "title";
             String updatedContents = "contents";
@@ -113,7 +116,8 @@ class PostServiceTest {
             final String EXCEPTION_MESSAGE = "없는 게시글 입니다.";
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> postService.updatePost(anyPostId, postUpdateRequest))
+            assertThatThrownBy(() -> postService
+                    .updatePost(anyPostId, postUpdateRequest, new FakeAuthentication()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
         }

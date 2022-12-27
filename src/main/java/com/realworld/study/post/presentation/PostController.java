@@ -32,9 +32,8 @@ public class PostController {
 
     @PutMapping("/posts/{postId}")
     public PostResponse updatePost(@PathVariable final Long postId,
-            @RequestBody final PostUpdateRequest postUpdateRequest) {
-
-        return postService.updatePost(postId, postUpdateRequest);
+            @RequestBody final PostUpdateRequest postUpdateRequest, Authentication authentication) {
+        return postService.updatePost(postId, postUpdateRequest, authentication);
     }
 
     @DeleteMapping("/posts/{postId}")

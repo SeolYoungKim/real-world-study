@@ -27,31 +27,30 @@ public class PostService {
 
     public PostResponse createPost(final PostCreateRequest postCreateRequest,
             final Authentication authentication) {
-        String email = authentication.getPrincipal().toString();
-        Member member = memberRepository.findByEmail(new Email(email))
-                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        Member member = findMemberBy(authentication);
 
-        Post post = getPostBy(postCreateRequest, member);
+        Post post = createPostBy(postCreateRequest, member);
         postRepository.save(post);
 
         return PostResponse.from(post);
     }
 
-    private Post getPostBy(final PostCreateRequest dto, final Member member) {
+    private Post createPostBy(final PostCreateRequest dto, final Member member) {
         return new Post(dto.getTitle(), dto.getContents(), member);
     }
 
-    public PostResponse updatePost(final Long postId, final PostUpdateRequest postUpdateRequest) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+    public PostResponse updatePost(final Long postId, final PostUpdateRequest postUpdateRequest,
+            Authentication authentication) {
+        Post post = findPostBy(postId);
+        validateAuthor(post, authentication);
 
-        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContents());  //TODO 이 부분의 DTO 의존성을 없앨 수는 없을까?
+        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContents());
+
         return PostResponse.from(post);
     }
 
     public PostDeleteResponse deletePost(final Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+        Post post = findPostBy(postId);
 
         postRepository.delete(post);
         return new PostDeleteResponse(true);
@@ -59,8 +58,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+        Post post = findPostBy(postId);
 
         return PostResponse.from(post);
     }
@@ -68,5 +66,23 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse> getPosts(Pageable pageable) {
         return postQueryRepository.pagedPosts(pageable);
+    }
+
+    private Post findPostBy(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+    }
+
+    private void validateAuthor(Post post, Authentication authentication) {
+        Member member = findMemberBy(authentication);
+        if (!member.isAuthorOf(post)) {
+            throw new IllegalArgumentException("해당 게시글의 저자가 아닙니다.");
+        }
+    }
+
+    private Member findMemberBy(Authentication authentication) {
+        String email = authentication.getPrincipal().toString();
+        return memberRepository.findByEmail(new Email(email))
+                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
     }
 }
