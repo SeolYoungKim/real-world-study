@@ -49,8 +49,9 @@ public class PostService {
         return PostResponse.from(post);
     }
 
-    public PostDeleteResponse deletePost(final Long postId) {
+    public PostDeleteResponse deletePost(final Long postId, final Authentication authentication) {
         Post post = findPostBy(postId);
+        validateAuthor(post, authentication);
 
         postRepository.delete(post);
         return new PostDeleteResponse(true);

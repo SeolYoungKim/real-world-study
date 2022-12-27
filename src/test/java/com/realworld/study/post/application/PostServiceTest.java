@@ -139,9 +139,11 @@ class PostServiceTest {
         @Test
         void deleteSuccess() {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(member));
 
             Long anyPostId = 100L;
-            PostDeleteResponse postDeleteResponse = postService.deletePost(anyPostId);
+            PostDeleteResponse postDeleteResponse = postService.deletePost(anyPostId,
+                    new FakeAuthentication());
             assertThat(postDeleteResponse.isDeleted()).isTrue();
         }
 
@@ -152,7 +154,7 @@ class PostServiceTest {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
             Long anyPostId = 100L;
-            assertThatThrownBy(() -> postService.deletePost(anyPostId))
+            assertThatThrownBy(() -> postService.deletePost(anyPostId, new FakeAuthentication()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
         }
