@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -42,6 +43,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "author")
     private final List<Post> posts = new ArrayList<>();
 
+    @Builder
     public Member(final String email, final String password, final String memberName,
             final String bio, final String image) {
         validatePassword(password);
