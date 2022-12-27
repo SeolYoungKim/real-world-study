@@ -51,7 +51,7 @@ class PostServiceTest {
 
     @DisplayName("게시글을 생성할 때")
     @Nested
-    class save {
+    class Save {
         @DisplayName("정상적으로 새로운 게시글이 생성된다.")
         @Test
         void createSuccess() {
@@ -69,7 +69,7 @@ class PostServiceTest {
 
     @DisplayName("게시글을 수정할 때")
     @Nested
-    class update {
+    class Update {
         private final Long anyPostId = 100L;
 
         private Post post;
@@ -103,8 +103,7 @@ class PostServiceTest {
         @Test
         void updateFail() {
             final String EXCEPTION_MESSAGE = "없는 게시글 입니다.";
-            when(postRepository.findById(any(Long.class))).thenThrow(
-                    new IllegalArgumentException(EXCEPTION_MESSAGE));
+            when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> postService.updatePost(anyPostId, postUpdateRequest))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -114,7 +113,7 @@ class PostServiceTest {
 
     @DisplayName("게시글을 삭제할 때")
     @Nested
-    class delete {
+    class Delete {
         private Post post;
 
         @BeforeEach
@@ -138,8 +137,7 @@ class PostServiceTest {
         @Test
         void deleteFail() {
             final String EXCEPTION_MESSAGE = "없는 게시글 입니다.";
-            when(postRepository.findById(any(Long.class))).thenThrow(
-                    new IllegalArgumentException(EXCEPTION_MESSAGE));
+            when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
             Long anyPostId = 100L;
             assertThatThrownBy(() -> postService.deletePost(anyPostId))
@@ -150,7 +148,7 @@ class PostServiceTest {
 
     @DisplayName("여러건의 게시글을 조회할 때")
     @Nested
-    class read {
+    class Read {
         @DisplayName("저장된 Post의 개수만큼 Page<PostResponse>를 반환한다")
         @Test
         void getPosts() {
