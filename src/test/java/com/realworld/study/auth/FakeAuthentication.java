@@ -1,4 +1,4 @@
-package com.realworld.study.member.application;
+package com.realworld.study.auth;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.member.domain.Email;
 import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
 import com.realworld.study.post.application.dto.PostDeleteResponse;
@@ -41,12 +43,16 @@ class PostServiceTest {
     private MemberRepository memberRepository;
 
     private PostService postService;
-
-    private final Member fakeMember = new Member("email@domain.com", "12345678", "kim", "my name is...", "image");
+    private Member member;
 
     @BeforeEach
     void setUp() {
         postService = new PostService(postRepository, postQueryRepository, memberRepository);
+        member = Member.builder()
+                .email("email@domain.com")
+                .password("12345678")
+                .memberName("kim")
+                .build();
     }
 
     @DisplayName("게시글을 생성할 때")
@@ -57,10 +63,12 @@ class PostServiceTest {
         void createSuccess() {
             String title = "제목";
             String contents = "내용";
-            when(memberRepository.save(any(Member.class))).thenReturn(fakeMember);
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(
+                    Optional.of(member));
 
             PostCreateRequest postCreateRequest = new PostCreateRequest(title, contents);
-            PostResponse postResponse = postService.createPost(postCreateRequest, fakeMember);
+            PostResponse postResponse = postService.createPost(postCreateRequest,
+                    new FakeAuthentication());
 
             assertThat(postResponse.getTitle()).isEqualTo(title);
             assertThat(postResponse.getContents()).isEqualTo(contents);
@@ -79,7 +87,7 @@ class PostServiceTest {
         void setUp() {
             String titleBeforeUpdate = "제목";
             String contentsBeforeUpdate = "내용";
-            post = new Post(titleBeforeUpdate, contentsBeforeUpdate, fakeMember);
+            post = new Post(titleBeforeUpdate, contentsBeforeUpdate, member);
 
             String updatedTitle = "title";
             String updatedContents = "contents";
@@ -120,7 +128,7 @@ class PostServiceTest {
         void setUp() {
             String title = "제목";
             String contents = "내용";
-            post = new Post(title, contents, fakeMember);
+            post = new Post(title, contents, member);
         }
 
         @DisplayName("아이디에 해당하는 게시글이 있는 경우 게시글이 성공적으로 삭제된다.")

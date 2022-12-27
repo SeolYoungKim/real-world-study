@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.realworld.study.auth.FakeAuthentication;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
 import com.realworld.study.member.application.dto.MemberProfileResponse;
 import com.realworld.study.member.domain.Email;
@@ -38,6 +39,7 @@ class MemberServiceTest {
     private final String password = "12345678";
     private final String name = "kim";
 
+    //TODO 테스트 간 독립성을 위해 매번 새로 할당하는게 낫나? 아니면, 비용을 고려해 같은 객체를 사용하는게 낫나?
     @BeforeEach
     void setUp() {
         memberService = new MemberService(memberRepository, passwordEncoder);

@@ -1,5 +1,6 @@
 package com.realworld.study.post.application;
 
+import com.realworld.study.member.domain.Email;
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostQueryRepository;
 import com.realworld.study.post.domain.PostRepository;
@@ -12,6 +13,7 @@ import com.realworld.study.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,11 @@ public class PostService {
     private final PostQueryRepository postQueryRepository;
     private final MemberRepository memberRepository;
 
-    public PostResponse createPost(final PostCreateRequest postCreateRequest, final Member member) {
-        //TODO 원래는 인증 객체에서 member 식별자를 꺼내서, memberRepository에서 멤버를 조회해서 사용해야 한다.
-        // 현재는 인증을 구현하지 않아 아래의 방식으로 대체한다.
-        memberRepository.save(member);
+    public PostResponse createPost(final PostCreateRequest postCreateRequest,
+            final Authentication authentication) {
+        String email = authentication.getPrincipal().toString();
+        Member member = memberRepository.findByEmail(new Email(email))
+                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
 
         Post post = getPostBy(postCreateRequest, member);
         postRepository.save(post);
