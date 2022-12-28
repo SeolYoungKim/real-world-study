@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
 import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
@@ -118,7 +119,7 @@ class PostServiceTest {
 
             assertThatThrownBy(() -> postService
                     .updatePost(anyPostId, postUpdateRequest, new FakeAuthentication()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(PostNotFoundException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
         }
     }
@@ -155,7 +156,7 @@ class PostServiceTest {
 
             Long anyPostId = 100L;
             assertThatThrownBy(() -> postService.deletePost(anyPostId, new FakeAuthentication()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(PostNotFoundException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
         }
     }

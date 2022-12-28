@@ -1,5 +1,7 @@
 package com.realworld.study.post.application;
 
+import com.realworld.study.exception.domain.MemberNotFoundException;
+import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostQueryRepository;
@@ -71,7 +73,7 @@ public class PostService {
 
     private Post findPostBy(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("없는 게시글 입니다."));
+                .orElseThrow(PostNotFoundException::new);
     }
 
     private void validateAuthor(Post post, Authentication authentication) {
@@ -84,6 +86,6 @@ public class PostService {
     private Member findMemberBy(Authentication authentication) {
         String email = authentication.getPrincipal().toString();
         return memberRepository.findByEmail(new Email(email))
-                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+                .orElseThrow(MemberNotFoundException::new);
     }
 }
