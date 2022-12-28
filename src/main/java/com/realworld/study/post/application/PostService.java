@@ -1,5 +1,6 @@
 package com.realworld.study.post.application;
 
+import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
@@ -79,7 +80,7 @@ public class PostService {
     private void validateAuthor(Post post, Authentication authentication) {
         Member member = findMemberBy(authentication);
         if (!member.isAuthorOf(post)) {
-            throw new IllegalArgumentException("해당 게시글의 저자가 아닙니다.");
+            throw new IsNotAuthorThisPostException();
         }
     }
 
