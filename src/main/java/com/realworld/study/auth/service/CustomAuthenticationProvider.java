@@ -22,18 +22,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
-        log.info("AuthenticationProvider의 authenticate 메서드를 실행합니다.");
-
         // 넘어온 authentication은 필터가 만들어준거임. 즉, 우리가 로그인창에 입력한 정보임.
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         // userDetailsService를 통해 아이디로 사용자를 조회. 이는 DB에 저장되어있던 회원 정보임.
-        log.info("패스워드 일치 여부를 확인합니다.");
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         validatePassword(userDetails, password);
 
-        log.info("UsernamePasswordAuthenticationToken을 반환합니다.");
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), password,
                 userDetails.getAuthorities());
     }
