@@ -1,5 +1,6 @@
 package com.realworld.study.member.application;
 
+import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
 import com.realworld.study.member.application.dto.MemberProfileResponse;
 import com.realworld.study.member.domain.Email;
@@ -55,7 +56,7 @@ public class MemberService {
     public MemberAuthResponse currentMember(final Authentication authentication) {
         String email = authentication.getPrincipal().toString();
         Member member = memberRepository.findByEmail(new Email(email))
-                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+                .orElseThrow(MemberNotFoundException::new);
 
         String token = "token";  // 인증 객체로부터 획득
 
@@ -66,7 +67,7 @@ public class MemberService {
             final Authentication authentication) {
         String email = authentication.getPrincipal().toString();
         Member member = memberRepository.findByEmail(new Email(email))
-                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+                .orElseThrow(MemberNotFoundException::new);
 
         String token = "token";  // 인증 객체로부터 획득
 
@@ -77,7 +78,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberProfileResponse getProfile(String memberName) {
         Member member = memberRepository.findByMemberName(memberName)
-                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+                .orElseThrow(MemberNotFoundException::new);
 
         return MemberProfileResponse.from(member);
     }

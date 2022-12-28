@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
 import com.realworld.study.member.application.dto.MemberProfileResponse;
 import com.realworld.study.member.domain.Email;
@@ -100,7 +101,7 @@ class MemberServiceTest {
 
             Authentication fake = new FakeAuthentication();
             assertThatThrownBy(() -> memberService.currentMember(fake))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberNotFoundException.class)
                     .hasMessageContaining("없는 회원입니다.");
         }
     }
@@ -135,7 +136,7 @@ class MemberServiceTest {
             Authentication fake = new FakeAuthentication();
 
             assertThatThrownBy(() -> memberService.updateMember(request, fake))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberNotFoundException.class)
                     .hasMessageContaining("없는 회원입니다.");
         }
     }
@@ -160,7 +161,7 @@ class MemberServiceTest {
                     Optional.empty());
 
             assertThatThrownBy(() -> memberService.getProfile(name))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberNotFoundException.class)
                     .hasMessageContaining("없는 회원입니다.");
         }
     }
