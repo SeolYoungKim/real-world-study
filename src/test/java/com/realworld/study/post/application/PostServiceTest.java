@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
 import com.realworld.study.member.domain.Member;
@@ -44,12 +45,12 @@ class PostServiceTest {
     private MemberRepository memberRepository;
 
     private PostService postService;
-    private Member member;
+    private Member author;
 
     @BeforeEach
     void setUp() {
         postService = new PostService(postRepository, postQueryRepository, memberRepository);
-        member = Member.builder()
+        author = Member.builder()
                 .email("email@domain.com")
                 .password("12345678")
                 .memberName("kim")
@@ -65,7 +66,7 @@ class PostServiceTest {
             String title = "제목";
             String contents = "내용";
             when(memberRepository.findByEmail(any(Email.class))).thenReturn(
-                    Optional.of(member));
+                    Optional.of(author));
 
             PostCreateRequest postCreateRequest = new PostCreateRequest(title, contents);
             PostResponse postResponse = postService.createPost(postCreateRequest,
@@ -80,7 +81,6 @@ class PostServiceTest {
     @Nested
     class Update {
         private final Long anyPostId = 100L;
-
         private Post post;
         private PostUpdateRequest postUpdateRequest;
 
@@ -88,7 +88,7 @@ class PostServiceTest {
         void setUp() {
             String titleBeforeUpdate = "제목";
             String contentsBeforeUpdate = "내용";
-            post = new Post(titleBeforeUpdate, contentsBeforeUpdate, member);
+            post = new Post(titleBeforeUpdate, contentsBeforeUpdate, author);
 
             String updatedTitle = "title";
             String updatedContents = "contents";
@@ -99,7 +99,8 @@ class PostServiceTest {
         @Test
         void updateSuccess() {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
-            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(member));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(
+                    author));
 
             PostResponse postResponse = postService.updatePost(anyPostId, postUpdateRequest,
                     new FakeAuthentication());
@@ -113,51 +114,85 @@ class PostServiceTest {
 
         @DisplayName("아이디에 해당되는 게시글이 없는 경우 예외가 발생한다.")
         @Test
-        void updateFail() {
-            final String EXCEPTION_MESSAGE = "없는 게시글 입니다.";
+        void updateFailByPostNotFound() {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> postService
                     .updatePost(anyPostId, postUpdateRequest, new FakeAuthentication()))
                     .isInstanceOf(PostNotFoundException.class)
-                    .hasMessageContaining(EXCEPTION_MESSAGE);
+                    .hasMessageContaining("없는 게시글 입니다.");
+        }
+
+        @DisplayName("게시글의 작성자가 아닐 경우 예외가 발생한다.")
+        @Test
+        void updateFailByIsNotAuthor() {
+            Member notAuthor = Member.builder()
+                    .email("notAuthor@email.com")
+                    .memberName("park")
+                    .password("12345678")
+                    .build();
+
+            when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(notAuthor));
+
+            assertThatThrownBy(() -> postService
+                    .updatePost(anyPostId, postUpdateRequest, new FakeAuthentication()))
+                    .isInstanceOf(IsNotAuthorThisPostException.class)
+                    .hasMessageContaining("해당 게시글의 저자가 아닙니다.");
         }
     }
 
     @DisplayName("게시글을 삭제할 때")
     @Nested
     class Delete {
+        private final Long anyPostId = 100L;
         private Post post;
 
         @BeforeEach
         void setUp() {
             String title = "제목";
             String contents = "내용";
-            post = new Post(title, contents, member);
+            post = new Post(title, contents, author);
         }
 
         @DisplayName("아이디에 해당하는 게시글이 있는 경우 게시글이 성공적으로 삭제된다.")
         @Test
         void deleteSuccess() {
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
-            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(member));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(
+                    author));
 
-            Long anyPostId = 100L;
             PostDeleteResponse postDeleteResponse = postService.deletePost(anyPostId,
                     new FakeAuthentication());
             assertThat(postDeleteResponse.isDeleted()).isTrue();
         }
 
-        @DisplayName("아이디에 해당하는 게시글이 없는 경우 예외를 발생시킨다.")
+        @DisplayName("아이디에 해당하는 게시글이 없는 경우 예외가 발생한다.")
         @Test
         void deleteFail() {
             final String EXCEPTION_MESSAGE = "없는 게시글 입니다.";
             when(postRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-            Long anyPostId = 100L;
             assertThatThrownBy(() -> postService.deletePost(anyPostId, new FakeAuthentication()))
                     .isInstanceOf(PostNotFoundException.class)
                     .hasMessageContaining(EXCEPTION_MESSAGE);
+        }
+
+        @DisplayName("게시글의 작성자가 아닐 경우 예외가 발생한다.")
+        @Test
+        void deleteFailByIsNotAuthor() {
+            Member notAuthor = Member.builder()
+                    .email("notAuthor@email.com")
+                    .memberName("park")
+                    .password("12345678")
+                    .build();
+
+            when(postRepository.findById(any(Long.class))).thenReturn(Optional.of(post));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(notAuthor));
+
+            assertThatThrownBy(() -> postService.deletePost(anyPostId, new FakeAuthentication()))
+                    .isInstanceOf(IsNotAuthorThisPostException.class)
+                    .hasMessageContaining("해당 게시글의 저자가 아닙니다.");
         }
     }
 
