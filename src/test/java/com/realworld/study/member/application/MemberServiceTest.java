@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.exception.domain.MemberNameDuplicationException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
 import com.realworld.study.member.application.dto.MemberProfileResponse;
@@ -74,7 +75,7 @@ class MemberServiceTest {
             MemberSignupRequest request = new MemberSignupRequest(email, password, name);
 
             assertThatThrownBy(() -> memberService.signup(request))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberNameDuplicationException.class)
                     .hasMessageContaining("이미 존재하는 이름입니다.");
         }
     }

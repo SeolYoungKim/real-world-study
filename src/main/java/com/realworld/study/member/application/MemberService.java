@@ -1,5 +1,6 @@
 package com.realworld.study.member.application;
 
+import com.realworld.study.exception.domain.MemberNameDuplicationException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
 import com.realworld.study.member.application.dto.MemberProfileResponse;
@@ -9,13 +10,11 @@ import com.realworld.study.member.domain.MemberRepository;
 import com.realworld.study.member.presentation.dto.MemberSignupRequest;
 import com.realworld.study.member.presentation.dto.MemberUpdateRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -48,7 +47,7 @@ public class MemberService {
 
     private void validateDuplicationOf(final String memberName) {
         if (memberRepository.existsByMemberName(memberName)) {
-            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+            throw new MemberNameDuplicationException();
         }
     }
 
