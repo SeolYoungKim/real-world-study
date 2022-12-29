@@ -1,22 +1,27 @@
 package com.realworld.study.article.domain;
 
-import com.realworld.study.common.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class User extends BaseEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +38,14 @@ public class User extends BaseEntity {
 
     @Column(length = 100)
     private String image;
+
+    @Column(nullable = false, updatable = false, name="created_at")
+    @CreatedDate
+    protected LocalDateTime createdAt;
+
+    @Column(nullable = false, name = "updated_at")
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
 
     public User(Long id, String email, String username, String bio, String image) {
         this.id = id;
@@ -72,6 +85,8 @@ public class User extends BaseEntity {
                 ", username='" + username + '\'' +
                 ", bio='" + bio + '\'' +
                 ", image='" + image + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
