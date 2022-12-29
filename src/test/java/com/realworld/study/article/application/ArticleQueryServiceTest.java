@@ -32,7 +32,7 @@ class ArticleQueryServiceTest {
         @DisplayName("2개를 모두 불러온다.")
         @Test
         void getArticles() {
-            User author = new User("user@gmail.com", "user", "bio", null);
+            User author = new User("user@gmail.com", "pw", "user", "bio", null);
             userRepository.save(author);
 
             Article article1 = articleRepository.save(new Article("article", "description", "body", author));

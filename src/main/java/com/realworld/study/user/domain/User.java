@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false, length = 30)
     private String email;
 
+    @Column(nullable = false, length = 30)
+    private String password;
+
     @Column(nullable = false, length = 20)
     private String username;
 
@@ -47,16 +50,17 @@ public class User {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
-    public User(Long id, String email, String username, String bio, String image) {
+    public User(Long id, String email, String password, String username, String bio, String image) {
         this.id = id;
         this.email = email;
+        this.password = password;
         this.username = username;
         this.bio = bio;
         this.image = image;
     }
 
-    public User(String email, String username, String bio, String image) {
-        this(null, email, username, bio, image);
+    public User(String email, String password, String username, String bio, String image) {
+        this(null, email, password, username, bio, image);
     }
 
     @Override
@@ -82,6 +86,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", bio='" + bio + '\'' +
                 ", image='" + image + '\'' +
