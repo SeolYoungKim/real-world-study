@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
+import com.realworld.study.user.domain.User;
+import com.realworld.study.user.domain.UserRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +19,8 @@ class ArticleQueryServiceTest {
 
     @Autowired
     ArticleRepository articleRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ArticleQueryService articleQueryService;
@@ -28,8 +32,11 @@ class ArticleQueryServiceTest {
         @DisplayName("2개를 모두 불러온다.")
         @Test
         void getArticles() {
-            Article article1 = articleRepository.save(new Article("article", "description", "body"));
-            Article article2 = articleRepository.save(new Article("article2", "description2", "body2"));
+            User author = new User("user@gmail.com", "user", "bio", null);
+            userRepository.save(author);
+
+            Article article1 = articleRepository.save(new Article("article", "description", "body", author));
+            Article article2 = articleRepository.save(new Article("article2", "description2", "body2", author));
 
             List<Article> articles = articleQueryService.getArticles(Pageable.ofSize(2)).getContent();
 

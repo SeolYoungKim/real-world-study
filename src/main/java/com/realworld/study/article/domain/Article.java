@@ -1,5 +1,6 @@
 package com.realworld.study.article.domain;
 
+import com.realworld.study.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

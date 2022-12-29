@@ -1,4 +1,4 @@
-package com.realworld.study.article.domain;
+package com.realworld.study.user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

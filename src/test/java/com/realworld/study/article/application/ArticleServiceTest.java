@@ -6,7 +6,8 @@ import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
-import com.realworld.study.article.domain.User;
+import com.realworld.study.user.domain.User;
+import com.realworld.study.user.domain.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,8 @@ class ArticleServiceTest {
 
     @Autowired
     ArticleService articleService;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ArticleRepository articleRepository;
@@ -26,6 +29,8 @@ class ArticleServiceTest {
     @Test
     void create() {
         User author = new User("user@gmail.com", "user", "bio", null);
+        userRepository.save(author);
+
         ArticleCreateRequest articleCreateRequest = new ArticleCreateRequest("article", "this is an article", "body", author);
         Article saved = articleService.createArticle(articleCreateRequest);
 
@@ -38,6 +43,8 @@ class ArticleServiceTest {
     @Test
     void update() {
         User author = new User("user@gmail.com", "user", "bio", null);
+        userRepository.save(author);
+
         Article article = articleRepository.save(new Article("article", "description", "body", author));
 
         ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest("article2", "description2", "body2");
@@ -54,6 +61,8 @@ class ArticleServiceTest {
     @Test
     void delete() {
         User author = new User("user@gmail.com", "user", "bio", null);
+        userRepository.save(author);
+
         Article article = articleRepository.save(new Article("article", "description", "body", author));
         articleService.deleteArticle(article.getId());
 
@@ -64,6 +73,8 @@ class ArticleServiceTest {
     @Test
     void getOne() {
         User author = new User("user@gmail.com", "user", "bio", null);
+        userRepository.save(author);
+
         Article article1 = articleRepository.save(new Article("article", "description", "body", author));
         Article article2 = articleRepository.save(new Article("article2", "description2", "body2", author));
 
