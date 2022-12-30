@@ -1,5 +1,6 @@
 package com.realworld.study.auth;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-//TODO H2콘솔만 자동인식인지, MySQL같은 상용 DB도 인식이 자동으로 되는지
+@RequiredArgsConstructor
 //@EnableWebSecurity
 @Configuration
 public class SecurityConfig {

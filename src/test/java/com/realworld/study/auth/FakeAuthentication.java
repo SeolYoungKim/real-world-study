@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 public class FakeAuthentication implements Authentication {
     @Override
@@ -19,7 +20,9 @@ public class FakeAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return "email@domain.com";
+        return new User(getName(),
+                getCredentials().toString(),
+                getAuthorities());
     }
 
     @Override

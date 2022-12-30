@@ -26,19 +26,22 @@ public class PostController {
 
     @PostMapping("/posts")
     public PostResponse createPost(@RequestBody final PostCreateRequest postCreateRequest,
-            Authentication authentication) {
+            final Authentication authentication) {
         return postService.createPost(postCreateRequest, authentication);
     }
 
     @PutMapping("/posts/{postId}")
-    public PostResponse updatePost(@PathVariable final Long postId,
-            @RequestBody final PostUpdateRequest postUpdateRequest, Authentication authentication) {
+    public PostResponse updatePost(
+            @PathVariable final Long postId,
+            @RequestBody final PostUpdateRequest postUpdateRequest,
+            final Authentication authentication
+    ) {
         return postService.updatePost(postId, postUpdateRequest, authentication);
     }
 
     @DeleteMapping("/posts/{postId}")
     public PostDeleteResponse deletePost(@PathVariable final Long postId,
-            Authentication authentication) {
+            final Authentication authentication) {
         return postService.deletePost(postId, authentication);
     }
 
@@ -48,7 +51,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public Page<PostResponse> getPosts(Pageable pageable) {
+    public Page<PostResponse> getPosts(final Pageable pageable) {
         return postService.getPosts(pageable);
     }
 }

@@ -1,5 +1,6 @@
 package com.realworld.study.member.application;
 
+import com.realworld.study.auth.util.UsernamePasswordAuthUtils;
 import com.realworld.study.exception.domain.MemberNameDuplicationException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.member.application.dto.MemberAuthResponse;
@@ -11,7 +12,6 @@ import com.realworld.study.member.presentation.dto.MemberSignupRequest;
 import com.realworld.study.member.presentation.dto.MemberUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,9 +54,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberAuthResponse currentMember(final Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-
+        String email = UsernamePasswordAuthUtils.getEmail(authentication);
         Member member = memberRepository.findByEmail(new Email(email))
                 .orElseThrow(MemberNotFoundException::new);
 
@@ -67,7 +65,7 @@ public class MemberService {
 
     public MemberAuthResponse updateMember(final MemberUpdateRequest updateRequest,
             final Authentication authentication) {
-        String email = authentication.getPrincipal().toString();
+        String email = UsernamePasswordAuthUtils.getEmail(authentication);
         Member member = memberRepository.findByEmail(new Email(email))
                 .orElseThrow(MemberNotFoundException::new);
 

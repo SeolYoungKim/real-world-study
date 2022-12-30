@@ -1,5 +1,6 @@
 package com.realworld.study.post.application;
 
+import com.realworld.study.auth.util.UsernamePasswordAuthUtils;
 import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
@@ -43,7 +44,7 @@ public class PostService {
     }
 
     public PostResponse updatePost(final Long postId, final PostUpdateRequest postUpdateRequest,
-            Authentication authentication) {
+            final Authentication authentication) {
         Post post = findPostBy(postId);
         validateAuthor(post, authentication);
 
@@ -61,31 +62,30 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponse getPost(Long postId) {
+    public PostResponse getPost(final Long postId) {
         Post post = findPostBy(postId);
-
         return PostResponse.from(post);
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse> getPosts(Pageable pageable) {
+    public Page<PostResponse> getPosts(final Pageable pageable) {
         return postQueryRepository.pagedPosts(pageable);
     }
 
-    private Post findPostBy(Long postId) {
+    private Post findPostBy(final Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
     }
 
-    private void validateAuthor(Post post, Authentication authentication) {
+    private void validateAuthor(final Post post, final Authentication authentication) {
         Member member = findMemberBy(authentication);
         if (!member.isAuthorOf(post)) {
             throw new IsNotAuthorThisPostException();
         }
     }
 
-    private Member findMemberBy(Authentication authentication) {
-        String email = authentication.getPrincipal().toString();
+    private Member findMemberBy(final Authentication authentication) {
+        String email = UsernamePasswordAuthUtils.getEmail(authentication);
         return memberRepository.findByEmail(new Email(email))
                 .orElseThrow(MemberNotFoundException::new);
     }

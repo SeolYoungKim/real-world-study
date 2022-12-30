@@ -10,6 +10,11 @@ spring:
     username: sa
     password:
 
+#  datasource:
+#    url: "jdbc:mysql://localhost:3306/real_world?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+#    username: root
+#    password:
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
