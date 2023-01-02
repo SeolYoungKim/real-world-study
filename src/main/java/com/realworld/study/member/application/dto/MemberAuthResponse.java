@@ -32,4 +32,15 @@ public class MemberAuthResponse {
         this.bio = bio;
         this.image = image;
     }
+
+    @Override
+    public String toString() {
+        return "MemberAuthResponse{" +
+                "email='" + email + '\'' +
+                ", token='" + token + '\'' +
+                ", name='" + name + '\'' +
+                ", bio='" + bio + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

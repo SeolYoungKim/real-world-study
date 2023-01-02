@@ -14,8 +14,4 @@ public class PostCreateRequest {  // @RequestBody : Json -> DTO "objectMapper" r
         this.title = title;
         this.contents = contents;
     }
-
-//    public Post toPost() {
-//        return new Post(title, contents);
-//    }
 }

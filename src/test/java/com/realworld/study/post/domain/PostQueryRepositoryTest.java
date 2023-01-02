@@ -2,9 +2,9 @@ package com.realworld.study.post.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.realworld.study.post.TestConfig;
 import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
+import com.realworld.study.post.application.dto.PostResponse;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,17 +12,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
-@Import(TestConfig.class)
-@DataJpaTest
-class PostRepositoryTest {
+@Transactional
+@SpringBootTest
+class PostQueryRepositoryTest {
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostQueryRepository postQueryRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -47,7 +50,7 @@ class PostRepositoryTest {
         @Test
         void pagingTest() {
             Pageable pageable = PageRequest.of(0, 5);
-            Page<Post> page = postRepository.pagedPosts(pageable);
+            Page<PostResponse> page = postQueryRepository.pagedPosts(pageable);
 
             assertThat(page.getTotalPages()).isEqualTo(4);
             assertThat(page.getTotalElements()).isEqualTo(postNumbers);
@@ -57,12 +60,12 @@ class PostRepositoryTest {
         @Test
         void descTest() {
             Pageable pageable = PageRequest.of(0, 5);
-            Page<Post> page = postRepository.pagedPosts(pageable);
+            Page<PostResponse> page = postQueryRepository.pagedPosts(pageable);
 
-            List<Post> posts = page.toList();
-            Post post = posts.get(0);
+            List<PostResponse> postResponses = page.toList();
+            PostResponse postResponse = postResponses.get(0);
 
-            assertThat(post.getTitle()).isEqualTo("title" + postNumbers);
+            assertThat(postResponse.getTitle()).isEqualTo("title" + postNumbers);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.realworld.study.post.application.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.realworld.study.post.domain.Post;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -26,7 +27,8 @@ public final class PostResponse {
     }
 
     @Builder
-    private PostResponse(final Long id, final String title, final String contents, final String author,
+    @QueryProjection
+    public PostResponse(final Long id, final String title, final String contents, final String author,
             final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
