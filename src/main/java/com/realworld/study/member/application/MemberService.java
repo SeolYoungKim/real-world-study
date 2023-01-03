@@ -10,6 +10,7 @@ import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
 import com.realworld.study.member.presentation.dto.MemberSignupRequest;
 import com.realworld.study.member.presentation.dto.MemberUpdateRequest;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,5 +82,16 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
 
         return MemberProfileResponse.from(member);
+    }
+
+    @PostConstruct
+    public void init() {
+        Member mem = Member.builder()
+                .memberName("이름")
+                .email("email@domain.com")
+                .password(passwordEncoder.encode("123123123"))
+                .build();
+
+        memberRepository.save(mem);
     }
 }
