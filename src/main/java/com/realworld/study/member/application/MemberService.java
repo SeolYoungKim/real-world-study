@@ -88,7 +88,7 @@ public class MemberService {
     public void init() {
         Member mem = Member.builder()
                 .memberName("이름")
-                .email("email@domain.com")
+                .email("test@test.com")
                 .password(passwordEncoder.encode("123123123"))
                 .build();
 
