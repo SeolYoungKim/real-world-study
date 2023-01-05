@@ -1,5 +1,6 @@
 package com.realworld.study.auth.service;
 
+import com.realworld.study.auth.Role;
 import com.realworld.study.member.domain.Email;
 import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
@@ -24,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(member.getEmailValue())
                 .password(member.getPassword())
-                .authorities("USER")
+                .authorities(Role.USER.key())
                 .build();
     }
 }

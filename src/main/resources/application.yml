@@ -19,3 +19,8 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+
+jwt:
+  token:
+    secret-key: 7Leo7JeF7Iuc7Lyc7KSYX+ygnOuwnF/rtoDtg4HsnbTslbwhIV/snbTqsoPsnbRf7Iuc7YGs66a/X+2CpOuLpCFAIyQlCg==
+    expire-length : 300000 # 5 min * 60 sec * 1000 msec
