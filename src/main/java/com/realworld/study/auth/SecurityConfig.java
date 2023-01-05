@@ -1,7 +1,9 @@
 package com.realworld.study.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.realworld.study.auth.handler.CustomLoginSuccessHandler;
 import com.realworld.study.auth.jwt.JwtAuthenticationFilter;
+import com.realworld.study.auth.jwt.JwtExceptionFilter;
 import com.realworld.study.auth.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -17,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
-//@EnableWebSecurity
 @Configuration
 public class SecurityConfig {
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
@@ -39,6 +40,9 @@ public class SecurityConfig {
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                 UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterBefore(new JwtExceptionFilter(new ObjectMapper()),
+                JwtAuthenticationFilter.class);
 
         return http.build();
     }
