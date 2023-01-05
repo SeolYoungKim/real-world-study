@@ -1,7 +1,7 @@
 package com.realworld.study.article.application.dto;
 
 import com.realworld.study.article.domain.Article;
-import com.realworld.study.article.domain.User;
+import com.realworld.study.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

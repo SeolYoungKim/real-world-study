@@ -1,23 +1,29 @@
 package com.realworld.study.article.domain;
 
-import com.realworld.study.common.domain.BaseEntity;
+import com.realworld.study.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.util.StringUtils;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Article extends BaseEntity {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +41,14 @@ public class Article extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
+
+    @Column(nullable = false, updatable = false, name="created_at")
+    @CreatedDate
+    protected LocalDateTime createdAt;
+
+    @Column(nullable = false, name = "updated_at")
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
 
     public Article(Long id, String title, String description, String body, User author) {
         this.id = id;
@@ -85,6 +99,9 @@ public class Article extends BaseEntity {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", body='" + body + '\'' +
+                ", author=" + author +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

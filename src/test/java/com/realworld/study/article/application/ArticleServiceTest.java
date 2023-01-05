@@ -6,7 +6,8 @@ import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
 import com.realworld.study.article.domain.Article;
 import com.realworld.study.article.domain.ArticleRepository;
-import com.realworld.study.article.domain.User;
+import com.realworld.study.user.domain.User;
+import com.realworld.study.user.domain.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,8 @@ class ArticleServiceTest {
 
     @Autowired
     ArticleService articleService;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ArticleRepository articleRepository;
@@ -25,7 +28,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 저장된다.")
     @Test
     void create() {
-        User author = new User("user@gmail.com", "user", "bio", null);
+        User author = getUser();
+
         ArticleCreateRequest articleCreateRequest = new ArticleCreateRequest("article", "this is an article", "body", author);
         Article saved = articleService.createArticle(articleCreateRequest);
 
@@ -37,7 +41,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 수정된다.")
     @Test
     void update() {
-        User author = new User("user@gmail.com", "user", "bio", null);
+        User author = getUser();
+
         Article article = articleRepository.save(new Article("article", "description", "body", author));
 
         ArticleUpdateRequest articleUpdateRequest = new ArticleUpdateRequest("article2", "description2", "body2");
@@ -53,7 +58,8 @@ class ArticleServiceTest {
     @DisplayName("게시글이 정상적으로 삭제된다.")
     @Test
     void delete() {
-        User author = new User("user@gmail.com", "user", "bio", null);
+        User author = getUser();
+
         Article article = articleRepository.save(new Article("article", "description", "body", author));
         articleService.deleteArticle(article.getId());
 
@@ -63,7 +69,8 @@ class ArticleServiceTest {
     @DisplayName("단건 조회가 정상적으로 작동된다.")
     @Test
     void getOne() {
-        User author = new User("user@gmail.com", "user", "bio", null);
+        User author = getUser();
+
         Article article1 = articleRepository.save(new Article("article", "description", "body", author));
         Article article2 = articleRepository.save(new Article("article2", "description2", "body2", author));
 
@@ -72,5 +79,12 @@ class ArticleServiceTest {
         assertThat(found1.getTitle()).isEqualTo("article");
         assertThat(found1.getDescription()).isEqualTo("description");
         assertThat(found1.getBody()).isEqualTo("body");
+    }
+
+    User getUser() {
+        User user = new User("user@gmail.com", "pw", "user", "bio", null);
+        userRepository.save(user);
+
+        return user;
     }
 }
