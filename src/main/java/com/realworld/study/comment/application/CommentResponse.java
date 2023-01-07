@@ -32,4 +32,15 @@ public final class CommentResponse {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
+
+    @Override
+    public String toString() {
+        return "CommentResponse{" +
+                "id=" + id +
+                ", body='" + body + '\'' +
+                ", author='" + author + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }
