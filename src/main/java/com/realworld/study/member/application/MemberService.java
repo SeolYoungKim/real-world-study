@@ -55,10 +55,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberAuthResponse currentMember(final Authentication authentication) {
-        String email = UsernamePasswordAuthUtils.getEmail(authentication);
-        Member member = memberRepository.findByEmail(new Email(email))
-                .orElseThrow(MemberNotFoundException::new);
-
+        Member member = findMemberBy(authentication);
         String token = "token";  // 인증 객체로부터 획득
 
         return MemberAuthResponse.from(member, token);
@@ -66,14 +63,18 @@ public class MemberService {
 
     public MemberAuthResponse updateMember(final MemberUpdateRequest updateRequest,
             final Authentication authentication) {
-        String email = UsernamePasswordAuthUtils.getEmail(authentication);
-        Member member = memberRepository.findByEmail(new Email(email))
-                .orElseThrow(MemberNotFoundException::new);
-
+        Member member = findMemberBy(authentication);
         String token = "token";  // 인증 객체로부터 획득
 
         member.update(updateRequest.getEmail(), updateRequest.getBio(), updateRequest.getImage());
         return MemberAuthResponse.from(member, token);
+    }
+
+    //TODO 이게 계속 중복된다. Utils로 뺄지, 어떡할지 고민해야 할 것 같다.
+    private Member findMemberBy(Authentication authentication) {
+        String email = UsernamePasswordAuthUtils.getEmail(authentication);
+        return memberRepository.findByEmail(new Email(email))
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
