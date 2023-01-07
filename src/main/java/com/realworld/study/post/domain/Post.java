@@ -2,7 +2,6 @@ package com.realworld.study.post.domain;
 
 import com.realworld.study.BaseTimeEntity;
 import com.realworld.study.member.domain.Member;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,10 +22,8 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //TODO 이 애너테이션의 역할은 ?
     private Long id;
 
-    @Column
     private String title;
 
-    @Column
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)

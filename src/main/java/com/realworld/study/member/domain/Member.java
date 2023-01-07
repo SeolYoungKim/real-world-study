@@ -31,13 +31,10 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column
     private String memberName;
 
-    @Column
     private String bio;
 
-    @Column
     private String image;
 
     @OneToMany(mappedBy = "author")
