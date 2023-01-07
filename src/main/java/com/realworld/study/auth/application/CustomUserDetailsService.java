@@ -1,4 +1,4 @@
-package com.realworld.study.user.application;
+package com.realworld.study.auth.application;
 
 import com.realworld.study.user.domain.User;
 import com.realworld.study.user.domain.UserRepository;

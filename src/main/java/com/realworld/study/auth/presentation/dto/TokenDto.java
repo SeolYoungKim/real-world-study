@@ -1,4 +1,4 @@
-package com.realworld.study.auth.jwt.dto;
+package com.realworld.study.auth.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

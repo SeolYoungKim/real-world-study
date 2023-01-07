@@ -50,7 +50,11 @@ public class Article {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
-    public Article(Long id, String title, String description, String body, User author) {
+    public Article(final Long id,
+            final String title,
+            final String description,
+            final String body,
+            final User author) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -58,11 +62,16 @@ public class Article {
         this.author = author;
     }
 
-    public Article(String title, String description, String body, User author) {
+    public Article(final String title,
+            final String description,
+            final String body,
+            final User author) {
         this(null, title, description, body, author);
     }
 
-    public void update(String title, String description, String body) {
+    public void update(final String title,
+            final String description,
+            final String body) {
         if (StringUtils.hasText(title)) {
             this.title = title;
         }

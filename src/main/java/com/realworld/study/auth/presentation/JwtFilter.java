@@ -1,4 +1,4 @@
-package com.realworld.study.auth.jwt;
+package com.realworld.study.auth.presentation;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
