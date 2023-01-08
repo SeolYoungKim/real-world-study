@@ -1,9 +1,9 @@
 package com.realworld.study.auth.presentation;
 
-import com.realworld.study.auth.jwt.JwtFilter;
-import com.realworld.study.auth.jwt.TokenProvider;
-import com.realworld.study.auth.jwt.dto.TokenDto;
-import com.realworld.study.auth.presentation.dto.LoginDto;
+import com.realworld.study.auth.application.AuthService;
+import com.realworld.study.auth.presentation.dto.TokenDto;
+import com.realworld.study.auth.presentation.dto.LoginRequestDto;
+import com.realworld.study.auth.application.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,11 +24,12 @@ public class AuthController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<TokenDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
@@ -40,5 +41,10 @@ public class AuthController {
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping("/signup")
+    public void signup(@RequestBody SignUpRequestDto signUpRequestDto) {
+        authService.signUpUser(signUpRequestDto);
     }
 }

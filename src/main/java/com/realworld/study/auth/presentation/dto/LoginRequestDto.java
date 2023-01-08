@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class LoginDto {
+public class LoginRequestDto {
 
     private String email;
     private String password;
 
-    public LoginDto(final String email, final String password) {
+    public LoginRequestDto(final String email, final String password) {
         this.email = email;
         this.password = password;
     }

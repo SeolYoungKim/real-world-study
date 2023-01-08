@@ -1,10 +1,12 @@
 package com.realworld.study.common.config;
 
-import com.realworld.study.auth.jwt.JwtFilter;
-import com.realworld.study.auth.jwt.TokenProvider;
+import com.realworld.study.auth.presentation.CustomAuthenticationEntryPoint;
+import com.realworld.study.auth.presentation.JwtFilter;
+import com.realworld.study.auth.presentation.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,11 +32,15 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeHttpRequests(matcherRegistry ->
-                        matcherRegistry.anyRequest().authenticated())
+                        matcherRegistry
+                                .requestMatchers(HttpMethod.GET, "/api/articles/{id}", "/api/articles").permitAll()
+                                .anyRequest().authenticated())
 
-                .addFilterBefore(
-                    new JwtFilter(tokenProvider),
-                    UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(tokenProvider),
+                        UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 
         return http.build();
     }
@@ -42,7 +48,8 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                .requestMatchers("/api/users/login");
+                .requestMatchers("/api/users/login")
+                .requestMatchers("/api/users/signup");
     }
 
     @Bean

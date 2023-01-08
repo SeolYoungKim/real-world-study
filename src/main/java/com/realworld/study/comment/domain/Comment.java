@@ -1,4 +1,4 @@
-package com.realworld.study.article.domain;
+package com.realworld.study.comment.domain;
 
 import com.realworld.study.user.domain.User;
 import jakarta.persistence.Column;
@@ -17,23 +17,16 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.util.StringUtils;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Article {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, length = 30)
-    private String title;
-
-    @Column(nullable = false, length = 50)
-    private String description;
 
     @Column(nullable = false)
     private String body;
@@ -50,50 +43,16 @@ public class Article {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
-    public Article(final Long id,
-            final String title,
-            final String description,
-            final String body,
-            final User author) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.body = body;
-        this.author = author;
-    }
-
-    public Article(final String title,
-            final String description,
-            final String body,
-            final User author) {
-        this(null, title, description, body, author);
-    }
-
-    public void update(final String title,
-            final String description,
-            final String body) {
-        if (StringUtils.hasText(title)) {
-            this.title = title;
-        }
-        if (StringUtils.hasText(description)) {
-            this.description = description;
-        }
-        if (StringUtils.hasText(body)) {
-            this.body = body;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Article)) {
+        if (!(o instanceof Comment comment)) {
             return false;
         }
 
-        Article article = (Article) o;
-        return Objects.equals(id, article.id);
+        return Objects.equals(id, comment.id);
     }
 
     @Override
@@ -103,10 +62,8 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" +
+        return "Comment{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
                 ", body='" + body + '\'' +
                 ", author=" + author +
                 ", createdAt=" + createdAt +

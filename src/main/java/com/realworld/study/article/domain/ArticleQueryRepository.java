@@ -18,6 +18,7 @@ public class ArticleQueryRepository {
         return jpaQueryFactory.selectFrom(article)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.createdAt.desc())
                 .fetch();
     }
 }

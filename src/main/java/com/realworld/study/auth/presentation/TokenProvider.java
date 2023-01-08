@@ -1,4 +1,4 @@
-package com.realworld.study.auth.jwt;
+package com.realworld.study.auth.presentation;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -34,10 +34,10 @@ public class TokenProvider {
     private Key key;
 
     public TokenProvider(
-            @Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds) {
+            @Value("${jwt.secret}") final String secret,
+            @Value("${jwt.token-validity-in-seconds}") final long tokenValidityInMilliseconds) {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds * 1000;
+        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds;
     }
 
     @PostConstruct

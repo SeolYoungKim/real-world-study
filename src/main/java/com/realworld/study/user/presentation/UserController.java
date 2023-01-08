@@ -19,4 +19,6 @@ public class UserController {
 //        return ResponseEntity.ok(UserResponse.of(userDetails));
         return "hi";
     }
+
+    // 인증 객체가 필요할땐 Authorization을 의존성 주입받을 수 있다!
 }

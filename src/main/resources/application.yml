@@ -7,3 +7,11 @@ spring:
   h2:
     console:
       enabled: true
+
+jwt:
+  secret: 7LKc67Cp7KeA7LaVIOyWvOuggeuaseuVhSDruZnquIDruZnquIAg64+M7JWE6rCA64qUIOynseq1rOydmCDtlZjro6gg7Jik64qY64+EIOynseq1rOuKlCDsoJXrp5Ag66q766eQ66Ckfgo=
+  token-validity-in-seconds: 10800000
+
+logging:
+  level:
+    root: debug
