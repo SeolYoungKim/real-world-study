@@ -8,13 +8,6 @@ import lombok.Getter;
 
 @Getter
 public final class PostResponse {
-    private final Long id;
-    private final String title;
-    private final String contents;
-    private final String author;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime modifiedAt;
-
     public static PostResponse from(final Post post) {
         return PostResponse.builder()
                 .id(post.getId())
@@ -25,6 +18,13 @@ public final class PostResponse {
                 .modifiedAt(post.getModifiedAt())
                 .build();
     }
+
+    private final Long id;
+    private final String title;
+    private final String contents;
+    private final String author;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
 
     @Builder
     @QueryProjection

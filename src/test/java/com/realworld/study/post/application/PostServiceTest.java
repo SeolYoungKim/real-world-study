@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
 import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
+import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
 import com.realworld.study.member.domain.Member;
@@ -59,12 +60,13 @@ class PostServiceTest {
 
     @DisplayName("게시글을 생성할 때")
     @Nested
-    class Save {
+    class Create {
+        private final String title = "제목";
+        private final String contents = "내용";
+
         @DisplayName("정상적으로 새로운 게시글이 생성된다.")
         @Test
         void createSuccess() {
-            String title = "제목";
-            String contents = "내용";
             when(memberRepository.findByEmail(any(Email.class))).thenReturn(
                     Optional.of(author));
 
@@ -74,6 +76,17 @@ class PostServiceTest {
 
             assertThat(postResponse.getTitle()).isEqualTo(title);
             assertThat(postResponse.getContents()).isEqualTo(contents);
+        }
+
+        @DisplayName("가입되지 않은 회원이 전달될 경우 예외를 발생시킨다")
+        @Test
+        void failByMember() {
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.empty());
+
+            PostCreateRequest postCreateRequest = new PostCreateRequest(title, contents);
+            assertThatThrownBy(() -> postService
+                    .createPost(postCreateRequest, new FakeAuthentication()))
+                    .isInstanceOf(MemberNotFoundException.class);
         }
     }
 
