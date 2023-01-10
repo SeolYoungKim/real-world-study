@@ -6,6 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.comment.application.dto.CommentResponse;
+import com.realworld.study.comment.domain.Comment;
+import com.realworld.study.comment.domain.CommentQueryRepository;
 import com.realworld.study.comment.domain.CommentRepository;
 import com.realworld.study.comment.presentation.dto.CommentCreateRequest;
 import com.realworld.study.exception.domain.MemberNotFoundException;
@@ -15,6 +18,7 @@ import com.realworld.study.member.domain.Member;
 import com.realworld.study.member.domain.MemberRepository;
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +27,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
@@ -32,6 +40,8 @@ class CommentServiceTest {
     private MemberRepository memberRepository;
     @Mock
     private CommentRepository commentRepository;
+    @Mock
+    private CommentQueryRepository commentQueryRepository;
 
     private CommentService commentService;
     private Post post;
@@ -39,7 +49,8 @@ class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
-        commentService = new CommentService(postRepository, memberRepository, commentRepository);
+        commentService = new CommentService(postRepository, memberRepository, commentRepository,
+                commentQueryRepository);
 
         member = Member.builder()
                 .memberName("kim")
@@ -91,6 +102,40 @@ class CommentServiceTest {
             assertThatThrownBy(() -> commentService
                     .createComment(postId, commentCreateRequest, new FakeAuthentication()))
                     .isInstanceOf(MemberNotFoundException.class);
+        }
+    }
+
+    @DisplayName("특정 게시글에 달린 댓글들을 조회할 때")
+    @Nested
+    class GetComments {
+        @DisplayName("존재하는 게시글의 댓글을 조회할 경우 정상적으로 조회된다.")
+        @Test
+        void success() {
+            Page<CommentResponse> page = new PageImpl<>(
+                    List.of(CommentResponse.from(new Comment("body", post, member))));
+
+            when(postRepository.existsById(any(Long.class))).thenReturn(true);
+            when(commentQueryRepository.pagedComments(any(Long.class), any(Pageable.class)))
+                    .thenReturn(page);
+
+            Long postId = 100L;
+            Pageable pageable = PageRequest.of(0, 5);
+            Page<CommentResponse> actual = commentService.getComments(postId, pageable);
+
+            assertThat(actual.getTotalPages()).isEqualTo(1);
+            assertThat(actual.getTotalElements()).isEqualTo(1);
+        }
+
+        @DisplayName("없는 게시글에 대한 댓글을 조회할 경우 예외를 발생시킨다.")
+        @Test
+        void fail() {
+            when(postRepository.existsById(any(Long.class))).thenReturn(false);
+
+            Long postId = 100L;
+            Pageable pageable = PageRequest.of(0, 5);
+
+            assertThatThrownBy(() -> commentService.getComments(postId, pageable))
+                    .isInstanceOf(PostNotFoundException.class);
         }
     }
 }
