@@ -6,11 +6,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
+import com.realworld.study.comment.application.dto.CommentDeleteResponse;
 import com.realworld.study.comment.application.dto.CommentResponse;
 import com.realworld.study.comment.domain.Comment;
 import com.realworld.study.comment.domain.CommentQueryRepository;
 import com.realworld.study.comment.domain.CommentRepository;
 import com.realworld.study.comment.presentation.dto.CommentCreateRequest;
+import com.realworld.study.exception.domain.CommentNotFoundException;
+import com.realworld.study.exception.domain.IsNotAuthorException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
@@ -63,7 +66,7 @@ class CommentServiceTest {
 
     @DisplayName("댓글을 생성할 때")
     @Nested
-    class Create {
+    class create {
         @DisplayName("정상적으로 새로운 댓글이 생성된다.")
         @Test
         void createSuccess() {
@@ -107,7 +110,7 @@ class CommentServiceTest {
 
     @DisplayName("특정 게시글에 달린 댓글들을 조회할 때")
     @Nested
-    class GetComments {
+    class getComments {
         @DisplayName("존재하는 게시글의 댓글을 조회할 경우 정상적으로 조회된다.")
         @Test
         void success() {
@@ -136,6 +139,87 @@ class CommentServiceTest {
 
             assertThatThrownBy(() -> commentService.getComments(postId, pageable))
                     .isInstanceOf(PostNotFoundException.class);
+        }
+    }
+
+    @DisplayName("댓글을 삭제할 때")
+    @Nested
+    class deleteComment {
+        @DisplayName("게시글이 존재하고 작성자인 경우 댓글이 삭제된다.")
+        @Test
+        void success() {
+            Comment comment = new Comment("body", post, member);
+            when(postRepository.existsById(any(Long.class))).thenReturn(true);
+            when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(comment));
+            when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(member));
+
+            Long postId = 100L;
+            Long commentsId = 100L;
+            CommentDeleteResponse commentDeleteResponse = commentService.deleteComment(postId,
+                    commentsId, new FakeAuthentication());
+
+            assertThat(commentDeleteResponse.isDeleted()).isTrue();
+        }
+
+        @DisplayName("댓글 삭제를 실패하는 경우")
+        @Nested
+        class fail {
+            @DisplayName("게시글이 존재하지 않는 경우 예외를 발생시킨다.")
+            @Test
+            void failCase1() {
+                when(postRepository.existsById(any(Long.class))).thenReturn(false);
+
+                Long postId = 100L;
+                Long commentsId = 100L;
+                assertThatThrownBy(() -> commentService
+                        .deleteComment(postId, commentsId, new FakeAuthentication()))
+                        .isInstanceOf(PostNotFoundException.class);
+            }
+
+            @DisplayName("없는 댓글인 경우 예외를 발생시킨다.")
+            @Test
+            void failCase2() {
+                when(postRepository.existsById(any(Long.class))).thenReturn(true);
+                when(commentRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+
+                Long postId = 100L;
+                Long commentsId = 100L;
+                assertThatThrownBy(() -> commentService
+                        .deleteComment(postId, commentsId, new FakeAuthentication()))
+                        .isInstanceOf(CommentNotFoundException.class);
+            }
+
+            @DisplayName("없는 회원인 경우 예외를 발생시킨다.")
+            @Test
+            void failCase3() {
+                Comment comment = new Comment("body", post, member);
+                when(postRepository.existsById(any(Long.class))).thenReturn(true);
+                when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(comment));
+                when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.empty());
+
+                Long postId = 100L;
+                Long commentsId = 100L;
+                assertThatThrownBy(() -> commentService
+                        .deleteComment(postId, commentsId, new FakeAuthentication()))
+                        .isInstanceOf(MemberNotFoundException.class);
+            }
+
+            @DisplayName("댓글의 작성자가 아닌 경우 예외를 발생시킨다.")
+            @Test
+            void failCase4() {
+                Comment comment = new Comment("body", post, member);
+                when(postRepository.existsById(any(Long.class))).thenReturn(true);
+                when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(comment));
+
+                Member notAuthor = new Member("notAuthor@domain.com", "123123123", "park", "", "");
+                when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(notAuthor));
+
+                Long postId = 100L;
+                Long commentsId = 100L;
+                assertThatThrownBy(() -> commentService
+                        .deleteComment(postId, commentsId, new FakeAuthentication()))
+                        .isInstanceOf(IsNotAuthorException.class);
+            }
         }
     }
 }
