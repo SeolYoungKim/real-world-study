@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 class MemberTest {
     @DisplayName("회원 엔티티를 생성할 때")
     @Nested
-    class Construct {
+    class construct {
         @DisplayName("올바른 값을 입력할 경우 예외가 발생하지 않는다.")
         @Test
         void constructSuccess() {
@@ -38,7 +38,7 @@ class MemberTest {
 
     @DisplayName("회원 엔티티를 수정할 때")
     @Nested
-    class Update {
+    class update {
         @DisplayName("들어온 값에 따라 필드가 수정된다.")
         @Test
         void success() {

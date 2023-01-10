@@ -16,7 +16,7 @@ class PostTest {
 
     @DisplayName("Post를 생성할 때")
     @Nested
-    class Construct {
+    class construct {
         private final String title = "제목";
         private final String contents = "내용";
 
@@ -60,7 +60,7 @@ class PostTest {
 
     @DisplayName("Post를 update할 값이 전달되었을 때")
     @Nested
-    class Update {
+    class update {
         private Post post;
 
         @BeforeEach

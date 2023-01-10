@@ -1,5 +1,6 @@
-package com.realworld.study.comment.application;
+package com.realworld.study.comment.application.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.realworld.study.comment.domain.Comment;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -23,8 +24,9 @@ public final class CommentResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
+    @QueryProjection
     @Builder
-    private CommentResponse(final Long id, final String body, final String author,
+    public CommentResponse(final Long id, final String body, final String author,
             final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.body = body;

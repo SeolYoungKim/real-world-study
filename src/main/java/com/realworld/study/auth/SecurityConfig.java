@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
     private final JwtProvider jwtProvider;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,7 +42,7 @@ public class SecurityConfig {
         http.addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                 UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(new JwtExceptionFilter(new ObjectMapper()),
+        http.addFilterBefore(new JwtExceptionFilter(objectMapper),
                 JwtAuthenticationFilter.class);
 
         return http.build();

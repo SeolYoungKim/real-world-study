@@ -1,5 +1,6 @@
 package com.realworld.study.comment.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.realworld.study.member.domain.Member;
@@ -28,7 +29,7 @@ class CommentTest {
 
     @DisplayName("Comment를 생성할 때")
     @Nested
-    class Construct {
+    class construct {
         @DisplayName("body가 null 혹은 빈 값이 아닐 경우 Comment가 정상적으로 생성된다.")
         @Test
         void success() {
@@ -41,6 +42,25 @@ class CommentTest {
             assertThatThrownBy(() -> new Comment(nullOrEmptyBody, post, member))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("댓글의 내용은 공백일 수 없습니다.");
+        }
+    }
+
+    @DisplayName("입력받은 member가 작성자인지 확인할 때")
+    @Nested
+    class writtenBy {
+        @DisplayName("작성자일 경우 true를 반환한다.")
+        @Test
+        void isAuthor() {
+            Comment comment = new Comment("body", post, member);
+            assertThat(comment.writtenBy(member)).isTrue();
+        }
+
+        @DisplayName("작성자일 경우 false를 반환한다.")
+        @Test
+        void isNotAuthor() {
+            Comment comment = new Comment("body", post, member);
+            Member notAuthor = new Member("notAuthor@domain.com", "12345677", "name", "", "");
+            assertThat(comment.writtenBy(notAuthor)).isFalse();
         }
     }
 }
