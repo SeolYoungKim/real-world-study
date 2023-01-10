@@ -13,6 +13,8 @@ public enum ErrorType {
 
     NOT_FOUND_USER(3001, "존재하지 않는 유저 입니다."),
 
+    NOT_FOUND_COMMENT(4001, "존재하지 않는 댓글 입니다."),
+
     REQUEST_EXCEPTION(9001, "잘못된 요청 입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 에러 입니다.");
 
