@@ -31,13 +31,13 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member author;
 
-    public Comment(final String body, final Post post, final Member member) {
+    public Comment(final String body, final Post post, final Member author) {
         validate(body);
         this.body = body;
         this.post = post;
-        this.member = member;
+        this.author = author;
     }
 
     private void validate(final String body) {
@@ -47,6 +47,6 @@ public class Comment extends BaseTimeEntity {
     }
 
     public String getAuthorName() {
-        return member.getMemberName();
+        return author.getMemberName();
     }
 }
