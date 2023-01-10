@@ -44,7 +44,7 @@ class JwtProviderTest {
 
     @DisplayName("HttpServletRequest로 넘어온 헤더를 파싱할 때")
     @Nested
-    class ResolveTokenFrom {
+    class resolveTokenFrom {
         @DisplayName("올바른 타입의 토큰이 들어왔을 경우 JWT만 파싱한 결과를 반환한다.")
         @Test
         void success() {
@@ -57,7 +57,7 @@ class JwtProviderTest {
 
         @DisplayName("올바르지 않은 토큰이 들어왔을 때")
         @Nested
-        class Fail {
+        class fail {
             private final String blank = "";
 
             @DisplayName("토큰 타입이 Bearer가 아닌 경우")

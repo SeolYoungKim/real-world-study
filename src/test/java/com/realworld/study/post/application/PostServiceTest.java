@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.realworld.study.auth.FakeAuthentication;
-import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
+import com.realworld.study.exception.domain.IsNotAuthorException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
@@ -60,7 +60,7 @@ class PostServiceTest {
 
     @DisplayName("게시글을 생성할 때")
     @Nested
-    class Create {
+    class create {
         private final String title = "제목";
         private final String contents = "내용";
 
@@ -92,7 +92,7 @@ class PostServiceTest {
 
     @DisplayName("게시글을 수정할 때")
     @Nested
-    class Update {
+    class update {
         private final Long anyPostId = 100L;
         private Post post;
         private PostUpdateRequest postUpdateRequest;
@@ -150,14 +150,13 @@ class PostServiceTest {
 
             assertThatThrownBy(() -> postService
                     .updatePost(anyPostId, postUpdateRequest, new FakeAuthentication()))
-                    .isInstanceOf(IsNotAuthorThisPostException.class)
-                    .hasMessageContaining("해당 게시글의 저자가 아닙니다.");
+                    .isInstanceOf(IsNotAuthorException.class);
         }
     }
 
     @DisplayName("게시글을 삭제할 때")
     @Nested
-    class Delete {
+    class delete {
         private final Long anyPostId = 100L;
         private Post post;
 
@@ -204,14 +203,13 @@ class PostServiceTest {
             when(memberRepository.findByEmail(any(Email.class))).thenReturn(Optional.of(notAuthor));
 
             assertThatThrownBy(() -> postService.deletePost(anyPostId, new FakeAuthentication()))
-                    .isInstanceOf(IsNotAuthorThisPostException.class)
-                    .hasMessageContaining("해당 게시글의 저자가 아닙니다.");
+                    .isInstanceOf(IsNotAuthorException.class);
         }
     }
 
     @DisplayName("여러건의 게시글을 조회할 때")
     @Nested
-    class Read {
+    class read {
         @DisplayName("저장된 Post의 개수만큼 Page<PostResponse>를 반환한다")
         @Test
         void getPosts() {

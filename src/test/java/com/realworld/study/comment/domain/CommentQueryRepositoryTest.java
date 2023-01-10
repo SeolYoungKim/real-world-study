@@ -55,7 +55,7 @@ class CommentQueryRepositoryTest {
 
     @DisplayName("전체 댓글을 조회할 때")
     @Nested
-    class GetComments {
+    class getComments {
         @DisplayName("Pagination이 적용된다.")
         @Test
         void pagingTest() {

@@ -1,7 +1,7 @@
 package com.realworld.study.post.application;
 
 import com.realworld.study.auth.util.UsernamePasswordAuthUtils;
-import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
+import com.realworld.study.exception.domain.IsNotAuthorException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
@@ -80,7 +80,7 @@ public class PostService {
     private void validateAuthor(final Post post, final Authentication authentication) {
         Member member = findMemberBy(authentication);
         if (!member.isAuthorOf(post)) {
-            throw new IsNotAuthorThisPostException();
+            throw new IsNotAuthorException();
         }
     }
 
