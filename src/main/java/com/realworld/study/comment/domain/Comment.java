@@ -49,4 +49,8 @@ public class Comment extends BaseTimeEntity {
     public String getAuthorName() {
         return author.getMemberName();
     }
+
+    public boolean writtenBy(final Member member) {
+        return author.equals(member);
+    }
 }
