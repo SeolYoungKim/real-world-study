@@ -45,7 +45,7 @@ class PostQueryRepositoryTest {
 
     @DisplayName("전체 게시글을 조회할 때 ")
     @Nested
-    class getPosts {
+    class GetPosts {
         @DisplayName("Pagination이 적용된다.")
         @Test
         void pagingTest() {
