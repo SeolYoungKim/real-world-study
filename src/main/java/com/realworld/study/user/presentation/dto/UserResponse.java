@@ -1,11 +1,14 @@
 package com.realworld.study.user.presentation.dto;
 
+import com.realworld.study.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 public class UserResponse {
 
@@ -25,7 +28,18 @@ public class UserResponse {
     }
 
     public static UserResponse of(final UserDetails userDetails) {
-        return new UserResponse(userDetails.getUsername(), null, null, null);
+        return UserResponse.builder()
+                .email(userDetails.getUsername())
+                .build();
+    }
+
+    public static UserResponse of(final User user) {
+        return UserResponse.builder()
+                .username(user.getEmail())
+                .username(user.getUsername())
+                .bio(user.getBio())
+                .image(user.getImage())
+                .build();
     }
 
     @Override

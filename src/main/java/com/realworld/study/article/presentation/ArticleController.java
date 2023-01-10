@@ -2,11 +2,17 @@ package com.realworld.study.article.presentation;
 
 import com.realworld.study.article.application.ArticleQueryService;
 import com.realworld.study.article.application.ArticleService;
+import com.realworld.study.article.application.CommentService;
 import com.realworld.study.article.application.dto.ArticleCreateRequest;
 import com.realworld.study.article.application.dto.ArticleUpdateRequest;
+import com.realworld.study.article.application.dto.CommentAddRequest;
 import com.realworld.study.article.domain.Article;
+import com.realworld.study.article.domain.Comment;
 import com.realworld.study.article.presentation.dto.ArticleResponse;
+import com.realworld.study.article.presentation.dto.CommentResponse;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +32,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final ArticleQueryService articleQueryService;
+    private final CommentService commentService;
 
     @PostMapping
     public ArticleResponse createArticle(final Principal principal,
@@ -62,5 +69,30 @@ public class ArticleController {
             @PathVariable final Long id) {
         String userEmail = principal.getName();
         articleService.deleteArticle(userEmail, id);
+    }
+
+    @PostMapping("/{id}/comments")
+    public CommentResponse addCommentToArticle(final Principal principal,
+            @PathVariable final Long id,
+            @RequestBody final CommentAddRequest commentAddRequest) {
+        String userEmail = principal.getName();
+        Comment comment = commentService.addCommentToArticle(userEmail, id, commentAddRequest);
+        return CommentResponse.of(comment);
+    }
+
+    @GetMapping("/{id}/comments")
+    public List<CommentResponse> getCommentsFromArticle(@PathVariable final Long id) {
+        List<Comment> comments = commentService.getCommentsFromArticle(id);
+        return comments.stream()
+                .map(CommentResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    @DeleteMapping("/{id}/comments/{commentId}")
+    public void deleteComment(final Principal principal,
+            @PathVariable final Long id,
+            @PathVariable final Long commentId) {
+        String userEmail = principal.getName();
+        commentService.deleteComment(userEmail, commentId);
     }
 }

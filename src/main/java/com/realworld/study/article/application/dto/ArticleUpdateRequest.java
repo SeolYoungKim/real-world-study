@@ -12,7 +12,9 @@ public class ArticleUpdateRequest {
     private String description;
     private String body;
 
-    public ArticleUpdateRequest(String title, String description, String body) {
+    public ArticleUpdateRequest(final String title,
+            final String description,
+            final String body) {
         this.title = title;
         this.description = description;
         this.body = body;

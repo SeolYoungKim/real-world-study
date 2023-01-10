@@ -1,4 +1,4 @@
-package com.realworld.study.comment.domain;
+package com.realworld.study.article.domain;
 
 import com.realworld.study.user.domain.User;
 import jakarta.persistence.Column;
@@ -32,6 +32,10 @@ public class Comment {
     private String body;
 
     @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;
+
+    @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
@@ -43,8 +47,30 @@ public class Comment {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
+    public Comment(final Long id,
+            final String body,
+            final Article article,
+            final User author,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
+        this.id = id;
+        this.body = body;
+        this.article = article;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Comment(final String body,
+            final Article article,
+            final User author) {
+        this.body = body;
+        this.article = article;
+        this.author = author;
+    }
+
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -65,6 +91,7 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", body='" + body + '\'' +
+                ", article=" + article +
                 ", author=" + author +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
