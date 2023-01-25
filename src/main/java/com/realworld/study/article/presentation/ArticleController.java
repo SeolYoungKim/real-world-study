@@ -1,5 +1,6 @@
 package com.realworld.study.article.presentation;
 
+import com.realworld.study.article.application.ArticleFavoriteService;
 import com.realworld.study.article.application.ArticleQueryService;
 import com.realworld.study.article.application.ArticleService;
 import com.realworld.study.article.application.CommentService;
@@ -34,6 +35,7 @@ public class ArticleController {
     private final ArticleQueryService articleQueryService;
     private final CommentService commentService;
 
+    private final ArticleFavoriteService articleFavoriteService;
     @PostMapping
     public ArticleResponse createArticle(final Principal principal,
             @RequestBody final ArticleCreateRequest articleCreateRequest) {
@@ -51,8 +53,10 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ArticleResponse getArticle(@PathVariable final Long id) {
-        return ArticleResponse.of(articleService.getArticle(id));
+    public ArticleResponse getArticle(final Principal principal,
+            @PathVariable final Long id) {
+        boolean favorited = isFavorited(principal, id);
+        return ArticleResponse.of(articleService.getArticle(id), favorited);
     }
 
     @PutMapping("/{id}")
@@ -61,7 +65,9 @@ public class ArticleController {
             @RequestBody final ArticleUpdateRequest articleUpdateRequest) {
         String userEmail = principal.getName();
         Article updated = articleService.updateArticle(userEmail, id, articleUpdateRequest);
-        return ArticleResponse.of(updated);
+
+        boolean favorited = isFavorited(principal, id);
+        return ArticleResponse.of(updated, favorited);
     }
 
     @DeleteMapping("/{id}")
@@ -94,5 +100,28 @@ public class ArticleController {
             @PathVariable final Long commentId) {
         String userEmail = principal.getName();
         commentService.deleteComment(userEmail, commentId);
+    }
+
+    @PostMapping("/{id}/favorite")
+    public void favoriteArticle(final Principal principal,
+            @PathVariable final Long id) {
+        String userEmail = principal.getName();
+        articleFavoriteService.favoriteArticle(userEmail, id);
+    }
+
+    @DeleteMapping("/{id}/favorite")
+    public void unfavoriteArticle(final Principal principal,
+            @PathVariable final Long id) {
+        String userEmail = principal.getName();
+        articleFavoriteService.unfavoriteArticle(userEmail, id);
+    }
+
+    private boolean isFavorited(final Principal principal, final Long id) {
+        boolean favorited = false;
+        if (principal != null) {
+            String userEmail = principal.getName();
+            favorited = articleFavoriteService.isArticleFavorite(userEmail, id);
+        }
+        return favorited;
     }
 }

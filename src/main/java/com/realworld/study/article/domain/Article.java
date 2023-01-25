@@ -9,7 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -49,6 +52,9 @@ public class Article {
     @Column(nullable = false, name = "updated_at")
     @LastModifiedDate
     protected LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "article")
+    private List<ArticleFavorite> favorites = new ArrayList<>();
 
     public Article(final Long id,
             final String title,
