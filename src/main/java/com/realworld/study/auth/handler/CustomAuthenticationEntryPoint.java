@@ -20,6 +20,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  *  - 아마 예외를 잡지는 못하는 것 같음 (try-catch 방식은 아닌건가?)
  *  - 예외가 발생하면 트리거되는 포인트인듯 -> 더 알아볼만 한 것 같음
  *  - 결론적으로 얘는 아직 커스터마이징을 하는 방법을 잘 몰라서, 그냥 Exception 핸들링을 위한 필터를 추가함
+ *  - 얘가 어떻게 동작하길래...
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
         ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.UNAUTHORIZED.name(),
-                authException.getLocalizedMessage());
+                authException.getMessage());
 
         responseSetup(response);
         objectMapper.writeValue(response.getWriter(), exceptionResponse);

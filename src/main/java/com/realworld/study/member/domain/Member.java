@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -80,5 +81,22 @@ public class Member extends BaseTimeEntity {
 
     public boolean isAuthorOf(Post post) {
         return posts.contains(post);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Member member = (Member) o;
+        return Objects.equals(email, member.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }

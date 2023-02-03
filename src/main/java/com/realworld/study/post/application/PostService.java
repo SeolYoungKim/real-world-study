@@ -1,26 +1,29 @@
 package com.realworld.study.post.application;
 
 import com.realworld.study.auth.util.UsernamePasswordAuthUtils;
-import com.realworld.study.exception.domain.IsNotAuthorThisPostException;
+import com.realworld.study.exception.domain.IsNotAuthorException;
 import com.realworld.study.exception.domain.MemberNotFoundException;
 import com.realworld.study.exception.domain.PostNotFoundException;
 import com.realworld.study.member.domain.Email;
+import com.realworld.study.member.domain.Member;
+import com.realworld.study.member.domain.MemberRepository;
+import com.realworld.study.post.application.dto.PostDeleteResponse;
+import com.realworld.study.post.application.dto.PostResponse;
 import com.realworld.study.post.domain.Post;
 import com.realworld.study.post.domain.PostQueryRepository;
 import com.realworld.study.post.domain.PostRepository;
 import com.realworld.study.post.presentation.dto.PostCreateRequest;
 import com.realworld.study.post.presentation.dto.PostUpdateRequest;
-import com.realworld.study.post.application.dto.PostDeleteResponse;
-import com.realworld.study.post.application.dto.PostResponse;
-import com.realworld.study.member.domain.Member;
-import com.realworld.study.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional  //TODO 이 애노테이션이 필요한 이유와 기전
 @Service  //TODO CGLIB (PROXY) 상속
@@ -35,6 +38,10 @@ public class PostService {
 
         Post post = createPostBy(postCreateRequest, member);
         postRepository.save(post);
+
+        final Thread thread = Thread.currentThread();
+        log.info("Thread={}", thread);
+        log.info("ResourceMap={}", TransactionSynchronizationManager.getResourceMap());
 
         return PostResponse.from(post);
     }
@@ -80,7 +87,7 @@ public class PostService {
     private void validateAuthor(final Post post, final Authentication authentication) {
         Member member = findMemberBy(authentication);
         if (!member.isAuthorOf(post)) {
-            throw new IsNotAuthorThisPostException();
+            throw new IsNotAuthorException();
         }
     }
 

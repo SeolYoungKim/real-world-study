@@ -54,7 +54,7 @@ class MemberServiceTest {
 
     @DisplayName("회원 가입을 요청할 때")
     @Nested
-    class Signup {
+    class signup {
         @DisplayName("올바른 가입 정보가 넘어왔을 경우 MemberAuthResponse를 반환한다.")
         @Test
         void success() {
@@ -82,7 +82,7 @@ class MemberServiceTest {
 
     @DisplayName("현재 접속중인 회원의 정보를 조회할 때")
     @Nested
-    class CurrentMember {
+    class currentMember {
         @DisplayName("인증된 회원의 정보를 MemberAuthResponse로 반환한다.")
         @Test
         void success() {
@@ -109,7 +109,7 @@ class MemberServiceTest {
 
     @DisplayName("회원의 정보를 업데이트할 때")
     @Nested
-    class UpdateMember {
+    class updateMember {
         private final String updatedEmail = "kim@domain.com";
         private final String updatedBio = "bio";
         private final String updatedImage = "image";
@@ -144,7 +144,7 @@ class MemberServiceTest {
 
     @DisplayName("특정 회원의 정보를 조회할 때")
     @Nested
-    class GetProfile {
+    class getProfile {
         @DisplayName("있는 회원일 경우 MemberProfileResponse를 반환한다.")
         @Test
         void success() {
