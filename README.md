@@ -16,5 +16,5 @@
 - Gradle 7.5.1
 - H2 Memory DB
 - Spring Data JPA
-- QueryDSL
+- QueryDSL 5.0
 - Spring Security
