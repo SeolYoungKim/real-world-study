@@ -9,10 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,26 +17,23 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.util.StringUtils;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Article {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 30)
-    private String title;
-
-    @Column(nullable = false, length = 50)
-    private String description;
-
     @Column(nullable = false)
     private String body;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false)
+    private Article article;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
@@ -53,53 +47,38 @@ public class Article {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "article")
-    private List<ArticleFavorite> favorites = new ArrayList<>();
-
-    public Article(final Long id,
-            final String title,
-            final String description,
+    public Comment(final Long id,
             final String body,
-            final User author) {
+            final Article article,
+            final User author,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt) {
         this.id = id;
-        this.title = title;
-        this.description = description;
         this.body = body;
+        this.article = article;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Comment(final String body,
+            final Article article,
+            final User author) {
+        this.body = body;
+        this.article = article;
         this.author = author;
     }
 
-    public Article(final String title,
-            final String description,
-            final String body,
-            final User author) {
-        this(null, title, description, body, author);
-    }
-
-    public void update(final String title,
-            final String description,
-            final String body) {
-        if (StringUtils.hasText(title)) {
-            this.title = title;
-        }
-        if (StringUtils.hasText(description)) {
-            this.description = description;
-        }
-        if (StringUtils.hasText(body)) {
-            this.body = body;
-        }
-    }
-
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Article)) {
+        if (!(o instanceof Comment comment)) {
             return false;
         }
 
-        Article article = (Article) o;
-        return Objects.equals(id, article.id);
+        return Objects.equals(id, comment.id);
     }
 
     @Override
@@ -109,11 +88,10 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" +
+        return "Comment{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
                 ", body='" + body + '\'' +
+                ", article=" + article +
                 ", author=" + author +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

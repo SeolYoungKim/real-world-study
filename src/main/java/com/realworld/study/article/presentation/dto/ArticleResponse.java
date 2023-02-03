@@ -17,29 +17,41 @@ public class ArticleResponse {
     private String body;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+    private boolean favorited;
+    private int favoritesCount;
 
     public ArticleResponse(final Long id,
             final String title,
             final String description,
             final String body,
             final LocalDateTime createAt,
-            final LocalDateTime updateAt) {
+            final LocalDateTime updateAt,
+            final boolean favorited,
+            final int favoritesCount) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.body = body;
         this.createAt = createAt;
         this.updateAt = updateAt;
+        this.favorited = favorited;
+        this.favoritesCount = favoritesCount;
     }
 
-    public static ArticleResponse of(final Article article) {
+    public static ArticleResponse of(final Article article, final boolean favorited) {
         return ArticleResponse.builder()
                 .id(article.getId())
                 .description(article.getDescription())
                 .body(article.getBody())
                 .createAt(article.getCreatedAt())
                 .updateAt(article.getUpdatedAt())
+                .favorited(favorited)
+                .favoritesCount(article.getFavorites().size())
                 .build();
+    }
+
+    public static ArticleResponse of(final Article article) {
+        return ArticleResponse.of(article, false);
     }
 
     @Override

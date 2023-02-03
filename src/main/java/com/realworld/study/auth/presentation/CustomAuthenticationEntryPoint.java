@@ -21,6 +21,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(final HttpServletRequest request,
             final HttpServletResponse response,
             final AuthenticationException authException) {
+        log.warn("Authorize Fail");
         writeErrorResponse(response, HttpStatus.UNAUTHORIZED, new ErrorResponse(
                 ErrorType.NOT_AUTHENTICATED.getCode(),
                 ErrorType.NOT_AUTHENTICATED.getMessage()));
