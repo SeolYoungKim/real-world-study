@@ -27,11 +27,7 @@ public class MemberService {
     public MemberAuthResponse signup(final MemberSignupRequest memberSignupRequest) {
         Member member = getMemberBy(memberSignupRequest);
         memberRepository.save(member);
-
-        //TODO token 발급 로직 필요
-        String token = "token";
-
-        return MemberAuthResponse.from(member, token);
+        return MemberAuthResponse.from(member);
     }
 
     private Member getMemberBy(final MemberSignupRequest dto) {
@@ -56,18 +52,14 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberAuthResponse currentMember(final Authentication authentication) {
         Member member = findMemberBy(authentication);
-        String token = "token";  // 인증 객체로부터 획득
-
-        return MemberAuthResponse.from(member, token);
+        return MemberAuthResponse.from(member);
     }
 
     public MemberAuthResponse updateMember(final MemberUpdateRequest updateRequest,
             final Authentication authentication) {
         Member member = findMemberBy(authentication);
-        String token = "token";  // 인증 객체로부터 획득
-
         member.update(updateRequest.getEmail(), updateRequest.getBio(), updateRequest.getImage());
-        return MemberAuthResponse.from(member, token);
+        return MemberAuthResponse.from(member);
     }
 
     //TODO 이게 계속 중복된다. Utils로 뺄지, 어떡할지 고민해야 할 것 같다.
