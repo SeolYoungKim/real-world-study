@@ -28,7 +28,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.h2database:h2'  // 메모리 db
 //	implementation 'mysql:mysql-connector-java:8.0.31'
 
 	compileOnly 'org.projectlombok:lombok'
