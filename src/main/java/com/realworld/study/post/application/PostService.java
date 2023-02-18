@@ -79,7 +79,7 @@ public class PostService {
 
     private void validateAuthor(final Post post, final Authentication authentication) {
         Member member = findMemberBy(authentication);
-        if (!member.isAuthorOf(post)) {
+        if (!post.isWrittenBy(member)) {
             throw new IsNotAuthorException();
         }
     }

@@ -79,10 +79,6 @@ public class Member extends BaseTimeEntity {
         }
     }
 
-    public boolean isAuthorOf(Post post) {
-        return posts.contains(post);
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
