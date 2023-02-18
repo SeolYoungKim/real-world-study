@@ -58,6 +58,10 @@ public class Post extends BaseTimeEntity {
         return other;
     }
 
+    public boolean isWrittenBy(final Member member) {
+        return author.equals(member);
+    }
+
     public String getAuthorName() {
         return author.getMemberName();
     }
